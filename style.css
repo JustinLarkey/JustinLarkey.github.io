@@ -89,7 +89,6 @@ main {
 /* --- Floating Navigation --- */
 .floating-nav {
     position: fixed; 
-    /* *** UPDATED: Removed background and blur from global rule *** */
     z-index: 1000;
     transition: all 0.3s ease;
 }
@@ -103,7 +102,6 @@ main {
         border-radius: 8px 0 0 8px; 
         padding: 1rem 1.25rem;
         
-        /* *** UPDATED: Added background and blur here for desktop *** */
         background-color: var(--nav-bg);
         backdrop-filter: blur(5px); 
     }
@@ -128,9 +126,9 @@ main {
 @media (min-width: 1025px) {
     main {
         margin: 0 auto;
-        max-width: 1200px; /* wider content on large screens */
+        max-width: 1200px; 
         width: 100%;
-        padding: 4rem 2rem; /* reduce horizontal padding so content uses space */
+        padding: 4rem 2rem; 
         box-sizing: border-box;
     }
 }
@@ -141,18 +139,16 @@ main {
    layout for emphasis. */
 @media (min-width: 1280px) {
     #about {
-        /* make the about block take full width of main but align right */
         display: block;
     }
 
     #about .content-section {
-        max-width: 820px; /* limit line-length for About to avoid overlap when zoomed */
-        margin-left: auto; /* push the About section to the right edge of main */
+        max-width: 820px; 
+        margin-left: auto; 
         margin-right: 0;
-        padding-right: 1rem; /* small gap so text doesn't touch nav */
+        padding-right: 1rem; 
     }
 
-    /* allow paragraphs inside About to use full width of the content-section */
     #about p {
         max-width: none;
         width: 100%;
@@ -166,7 +162,6 @@ main {
         right: 0;
         transform: translateY(-50%);
         padding: 1rem;
-        /* *** UPDATED: Removed background from button container *** */
         border-radius: 8px 0 0 8px;
     }
 
@@ -178,7 +173,6 @@ main {
         transform: translateY(-50%);
         background: none;
         border: none;
-        /* use explicit width/height and remove padding so the icon is positioned absolutely inside */
         padding: 0;
         cursor: pointer;
         width: var(--nav-button-width);
@@ -186,19 +180,18 @@ main {
         display: flex;
         align-items: center;
         justify-content: center;
-        /* Visual style for the button */
+        
         background-color: var(--nav-bg);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
-        border-radius: 8px 0 0 8px;
+        /* *** REVERTED THIS CHANGE *** */
+        border-radius: 8px 0 0 8px; /* Was 8px */
         z-index: 1001;
         box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-        /* ensure the button creates a positioning context for the hamburger */
         -webkit-transform: none;
         transform: none;
     }
 
-    /* center the icon absolutely inside the button so it is visually centered regardless of surrounding layout */
     .hamburger {
         display: block;
         position: absolute;
@@ -222,7 +215,6 @@ main {
         transition: all 0.3s ease-in-out;
     }
 
-    /* use explicit top offsets so the three bars remain centered vertically */
     .hamburger::before {
         top: -8px;
     }
@@ -251,12 +243,12 @@ main {
         margin: 0;
         text-align: right;
         background-color: var(--nav-bg);
-        /* Position fixed so it doesn't overlap the fixed hamburger button */
         position: fixed;
         top: 50%;
-    right: calc(var(--nav-button-width) + 12px); /* leave a gap from the hamburger */
+    right: calc(var(--nav-button-width) + 12px); 
         transform: translateY(-50%);
-        border-radius: 8px 0 0 8px;
+        /* *** THIS IS THE CHANGE *** */
+        border-radius: 8px; /* Was 8px 0 0 8px */
         min-width: 150px;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
