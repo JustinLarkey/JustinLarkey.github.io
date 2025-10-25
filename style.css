@@ -1,0 +1,446 @@
+/* --- Global Styles & Dark Mode --- */
+:root {
+    --bg-color: #121212; /* Dark background */
+    --text-color: #f0f0f0; /* Light text */
+    --primary-accent: #00bfff; /* A bright blue for highlights */
+    --secondary-accent-1: #90e0ef; /* For project title variation */
+    --secondary-accent-2: #f7b267; /* For project title variation */
+    --nav-bg: rgba(30, 30, 30, 0.85); /* Semi-transparent nav */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 400; 
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Typography Hierarchy --- */
+h1, h2 {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+}
+
+h1 {
+    font-size: 4.5rem;
+    color: var(--primary-accent);
+    margin: 0;
+    font-weight: 900; 
+}
+
+h2 {
+    font-size: 2.5rem;
+    border-bottom: 2px solid var(--primary-accent);
+    padding-bottom: 10px;
+    display: inline-block;
+    font-weight: 700;
+}
+
+p {
+    font-size: 1.1rem;
+    max-width: 65ch; 
+    font-weight: 400; 
+}
+
+/* --- Main Content & Layout --- */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 4rem;
+    overflow-x: hidden;
+}
+
+.content-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+#home {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.page-header {
+    text-align: left;
+    padding: 4rem 0;
+}
+
+.page-header h2 {
+    font-family: 'Red Hat Display', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500; 
+    text-transform: none;
+    letter-spacing: 0;
+    color: #aaa;
+    border: none;
+}
+
+/* --- Floating Navigation --- */
+.floating-nav {
+    position: fixed; 
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(10px); 
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* Desktop Navigation */
+@media (min-width: 769px) {
+    .floating-nav {
+        top: 50%; 
+        right: 0;
+        transform: translateY(-50%); 
+        border-radius: 8px 0 0 8px; 
+        padding: 1rem 1.25rem;
+    }
+
+    .nav-toggle {
+        display: none;
+    }
+
+    .nav-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column; 
+        gap: 1.5rem;
+    }
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+    .floating-nav {
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        padding: 1rem;
+        background-color: var(--nav-bg);
+        border-radius: 8px 0 0 8px;
+    }
+
+    .nav-toggle {
+        display: block;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hamburger {
+        display: block;
+        position: relative;
+        width: 24px;
+        height: 2px;
+        background: var(--text-color);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .hamburger::before,
+    .hamburger::after {
+        content: '';
+        position: absolute;
+        width: 24px;
+        height: 2px;
+        background: var(--text-color);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .hamburger::before {
+        transform: translateY(-8px);
+    }
+
+    .hamburger::after {
+        transform: translateY(8px);
+    }
+
+    .nav-toggle.active .hamburger {
+        background: transparent;
+    }
+
+    .nav-toggle.active .hamburger::before {
+        transform: rotate(45deg) translate(0, 0);
+    }
+
+    .nav-toggle.active .hamburger::after {
+        transform: rotate(-45deg) translate(0, 0);
+    }
+
+    .nav-menu {
+        visibility: hidden;
+        opacity: 0;
+        list-style: none;
+        padding: 1rem;
+        margin: 0;
+        text-align: right;
+        background-color: var(--nav-bg);
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        transform: translateY(-50%);
+        border-radius: 8px 0 0 8px;
+        min-width: 150px;
+        backdrop-filter: blur(10px);
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        pointer-events: none;
+    }
+
+    .nav-menu.active {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+.floating-nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-family: 'Red Hat Display', sans-serif;
+    font-size: 1rem;
+    font-weight: 700; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 0.5rem;
+}
+
+.floating-nav a:hover {
+    color: var(--primary-accent);
+}
+
+/* --- Featured Works Section --- */
+.project-list {
+    margin-top: 3rem;
+}
+
+.project-item {
+    padding: 2rem 0;
+    border-bottom: 1px solid #333; 
+    transition: background-color 0.3s ease;
+}
+
+.project-item:first-child {
+    border-top: 1px solid #333;
+}
+
+.project-item h3 {
+    font-size: 3rem;
+    font-weight: 700; 
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.project-medium {
+    font-size: 1rem; 
+    color: #aaa; 
+    font-style: italic; 
+    font-weight: 400; 
+    text-transform: none; 
+    letter-spacing: normal; 
+    margin-top: 0.25rem; 
+    margin-bottom: 1rem; 
+}
+
+.project-item p:not(.project-medium) { 
+    margin-top: 0; 
+    font-size: 1.1rem; 
+}
+
+
+.project-item:hover h3 {
+    color: var(--primary-accent);
+}
+
+/* --- Contact Link --- */
+.contact-link {
+    font-family: 'Red Hat Display', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700; 
+    color: var(--primary-accent);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.contact-link:hover {
+    border-color: var(--primary-accent);
+}
+
+/* --- Special Rule for "Unlucky" --- */
+#project-unlucky h3 {
+    font-family: 'Lobster', cursive;
+    font-weight: 400; 
+    color: var(--secondary-accent-1); 
+    font-size: 3.25rem; 
+}
+
+#project-unlucky h3 a {
+    color: inherit; 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#project-unlucky h3 a:hover {
+    color: var(--primary-accent); 
+}
+
+
+/* --- Scroll Animation Code --- */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform; 
+}
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-on-scroll.delay-1 {
+    transition-delay: 0.15s;
+}
+.reveal-on-scroll.delay-2 {
+    transition-delay: 0.3s;
+}
+
+
+/* --- Footer & Social Icons --- */
+.site-footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid #333;
+    margin-top: 0;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.social-links {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; 
+}
+
+.social-link {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    
+    width: 44px;  
+    height: 44px; 
+    
+    background-color: #ffffff; 
+    color: var(--bg-color);    
+    
+    border-radius: 50%; 
+    text-decoration: none;
+    font-size: 1.2rem; 
+    
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.social-link:hover {
+    transform: scale(1.1); 
+    background-color: var(--primary-accent); 
+}
+
+.site-footer p {
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+
+/* ----------------------------------
+  *** NEW: MOBILE RESPONSIVENESS ***
+  ---------------------------------- */
+
+/* Applies when screen width is 768px or less */
+@media (max-width: 768px) {
+    
+    body {
+        /* Fixes potential font size issues */
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* Reduce padding to give more room */
+    main {
+        padding: 2rem 1.5rem;
+    }
+    
+    .content-section {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+    
+    .site-footer {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+    
+    .page-header {
+        padding: 2rem 0;
+    }
+
+    /* Reduce font sizes for readability */
+    h1 {
+        font-size: 2.75rem; /* Smaller main heading */
+    }
+
+    h2 {
+        font-size: 1.8rem; /* Smaller section headings */
+    }
+    
+    .page-header h2 {
+        font-size: 1.2rem; /* Smaller subtitle */
+    }
+    
+    .project-item h3 {
+        font-size: 2.2rem; /* Smaller project titles */
+    }
+    
+    /* Reduce Lobster font size */
+    #project-unlucky h3 {
+        font-size: 2.5rem;
+    }
+    
+    p {
+        font-size: 1rem; /* Slightly smaller body text */
+    }
+    
+    .project-medium {
+        font-size: 0.9rem;
+    }
+
+    /* Make floating nav smaller */
+    .floating-nav {
+        padding: 0.8rem 1rem;
+    }
+
+    .floating-nav ul {
+        gap: 1.2rem;
+    }
+
+    .floating-nav a {
+        font-size: 0.9rem;
+    }
+}
