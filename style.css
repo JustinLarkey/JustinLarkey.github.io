@@ -1,5 +1,6 @@
 /* --- Global Styles & Dark Mode --- */
 :root {
+    --nav-button-width: 44px;
     --bg-color: #121212; /* Dark background */
     --text-color: #f0f0f0; /* Light text */
     --primary-accent: #00bfff; /* A bright blue for highlights */
@@ -172,15 +173,15 @@ main {
     .nav-toggle {
         display: block;
         position: fixed;
-        right: 0;
+        right: env(safe-area-inset-right, 0);
         top: 50%;
         transform: translateY(-50%);
         background: none;
         border: none;
         padding: 0.5rem;
         cursor: pointer;
-        width: 44px;
-        height: 44px;
+        width: var(--nav-button-width);
+        height: var(--nav-button-width);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -243,7 +244,7 @@ main {
         /* Position fixed so it doesn't overlap the fixed hamburger button */
         position: fixed;
         top: 50%;
-        right: calc(44px + 12px); /* leave a gap from the hamburger */
+    right: calc(var(--nav-button-width) + 12px); /* leave a gap from the hamburger */
         transform: translateY(-50%);
         border-radius: 8px 0 0 8px;
         min-width: 150px;
