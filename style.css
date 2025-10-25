@@ -178,7 +178,8 @@ main {
         transform: translateY(-50%);
         background: none;
         border: none;
-        padding: 0.5rem;
+        /* use explicit width/height and remove padding so the icon is positioned absolutely inside */
+        padding: 0;
         cursor: pointer;
         width: var(--nav-button-width);
         height: var(--nav-button-width);
@@ -192,11 +193,18 @@ main {
         border-radius: 8px 0 0 8px;
         z-index: 1001;
         box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        /* ensure the button creates a positioning context for the hamburger */
+        -webkit-transform: none;
+        transform: none;
     }
 
+    /* center the icon absolutely inside the button so it is visually centered regardless of surrounding layout */
     .hamburger {
         display: block;
-        position: relative;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         width: 24px;
         height: 2px;
         background: var(--text-color);
@@ -207,18 +215,20 @@ main {
     .hamburger::after {
         content: '';
         position: absolute;
+        left: 0;
         width: 24px;
         height: 2px;
         background: var(--text-color);
         transition: all 0.3s ease-in-out;
     }
 
+    /* use explicit top offsets so the three bars remain centered vertically */
     .hamburger::before {
-        transform: translateY(-8px);
+        top: -8px;
     }
 
     .hamburger::after {
-        transform: translateY(8px);
+        top: 8px;
     }
 
     .nav-toggle.active .hamburger {
