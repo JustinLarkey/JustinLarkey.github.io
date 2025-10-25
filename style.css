@@ -172,8 +172,7 @@ main {
     .nav-toggle {
         display: block;
         position: fixed;
-        /* respect device safe-area inset on iOS */
-        right: env(safe-area-inset-right, 0);
+        right: 0;
         top: 50%;
         transform: translateY(-50%);
         background: none;
