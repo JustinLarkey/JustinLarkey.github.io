@@ -45,4 +45,9 @@ document.addEventListener("DOMContentLoaded", function() {
     elementsToReveal.forEach(element => {
         observer.observe(element);
     });
+
+    // *** NEW: Auto-update copyright year ***
+    // This finds the element with id="copyright" and sets its text.
+    // new Date().getFullYear() gets the current year automatically.
+    document.getElementById("copyright").innerHTML = "© " + new Date().getFullYear() + " Justin Larkey";
 });
