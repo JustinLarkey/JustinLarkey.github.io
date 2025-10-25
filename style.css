@@ -94,7 +94,7 @@ main {
 }
 
 /* Desktop Navigation */
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
     .floating-nav {
         top: 50%; 
         right: 0;
@@ -121,8 +121,45 @@ main {
     }
 }
 
+/* Desktop layout: expand content width so the page feels balanced when
+    the nav sticks to the right. Increase max-width and reduce excessive
+    whitespace on wide screens. */
+@media (min-width: 1025px) {
+    main {
+        margin: 0 auto;
+        max-width: 1200px; /* wider content on large screens */
+        width: 100%;
+        padding: 4rem 2rem; /* reduce horizontal padding so content uses space */
+        box-sizing: border-box;
+    }
+}
+
+/* Shift only the About section to the right on large screens so the
+   description extends closer to the floating nav without overlapping it.
+   This keeps other sections centered while giving About a right-aligned
+   layout for emphasis. */
+@media (min-width: 1280px) {
+    #about {
+        /* make the about block take full width of main but align right */
+        display: block;
+    }
+
+    #about .content-section {
+        max-width: 820px; /* limit line-length for About to avoid overlap when zoomed */
+        margin-left: auto; /* push the About section to the right edge of main */
+        margin-right: 0;
+        padding-right: 1rem; /* small gap so text doesn't touch nav */
+    }
+
+    /* allow paragraphs inside About to use full width of the content-section */
+    #about p {
+        max-width: none;
+        width: 100%;
+    }
+}
+
 /* Mobile Navigation */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .floating-nav {
         top: 50%;
         right: 0;
@@ -134,6 +171,10 @@ main {
 
     .nav-toggle {
         display: block;
+        position: fixed;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
         background: none;
         border: none;
         padding: 0.5rem;
@@ -143,11 +184,13 @@ main {
         display: flex;
         align-items: center;
         justify-content: center;
-        
-        /* *** ADDED: Background and blur for the button itself *** */
+        /* Visual style for the button */
         background-color: var(--nav-bg);
         backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
         border-radius: 8px 0 0 8px;
+        z-index: 1001;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.25);
     }
 
     .hamburger {
@@ -197,18 +240,22 @@ main {
         margin: 0;
         text-align: right;
         background-color: var(--nav-bg);
-        position: absolute;
+        /* Position fixed so it doesn't overlap the fixed hamburger button */
+        position: fixed;
         top: 50%;
-        right: 100%;
+        right: calc(44px + 12px); /* leave a gap from the hamburger */
         transform: translateY(-50%);
         border-radius: 8px 0 0 8px;
         min-width: 150px;
-        backdrop-filter: blur(5px); /* This rule is correct */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
         transition: opacity 0.3s ease, visibility 0.3s ease;
         display: flex;
         flex-direction: column;
         gap: 1rem;
         pointer-events: none;
+        z-index: 1000;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     }
 
     .nav-menu.active {
@@ -421,7 +468,7 @@ main {
   *** MOBILE RESPONSIVENESS ***
   ---------------------------------- */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     
     body {
         -webkit-text-size-adjust: 100%;
