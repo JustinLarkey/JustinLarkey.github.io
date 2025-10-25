@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- enable full-bleed on iOS so we can respect safe-area insets -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Justin Larkey - Portfolio</title>
     <link rel="stylesheet" href="style.css">
     
@@ -14,10 +15,13 @@
 </head>
 <body>
 
+    <!-- move the toggle outside the transformed nav so fixed positioning
+         is relative to the viewport (prevents it from being clipped) -->
+    <button class="nav-toggle" aria-label="Toggle menu">
+        <span class="hamburger"></span>
+    </button>
+
     <nav class="floating-nav">
-        <button class="nav-toggle" aria-label="Toggle menu">
-            <span class="hamburger"></span>
-        </button>
         <ul class="nav-menu">
             <li><a href="#home">Home</a></li>
             <li><a href="#projects">Projects</a></li>
