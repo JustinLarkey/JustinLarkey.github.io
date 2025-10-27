@@ -1,5 +1,11 @@
 // Wait for the entire page to load before running the script
 document.addEventListener("DOMContentLoaded", function() {
+    // Add floating nav to reveal elements
+    const floatingNav = document.querySelector('.floating-nav');
+    if (floatingNav && window.innerWidth >= 1025) {
+        floatingNav.classList.add('is-visible');
+    }
+    
     // Mobile navigation setup
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
