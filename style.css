@@ -648,44 +648,41 @@ main {
     color: var(--primary-accent);
 }
 
-/* --- Walking Contradictions Logo Styling (ADDED) --- */
+/* --- Walking Contradictions Logo Styling --- */
 .logo-trigger a {
     display: inline-block;
     line-height: 0;
+    
+    /* 1. We create a "window" that is the exact size of the image */
+    overflow: hidden; 
 }
 
 .logo-trigger img {
-    /* ⭐ ADJUST THIS: Height controls the logo size */
-    /* 3rem = Matches text size perfectly */
-    /* 2.5rem = Smaller */
-    /* 4rem = Bigger */
+    /* Height controls the size */
     height: 3rem; 
-    
     width: auto;
-    
-    /* ⭐ ADJUST THIS: If the logo sits too high or low */
-    /* middle = usually best */
-    /* bottom = aligns with very bottom of text line */
-    /* sub = aligns slightly lower */
     vertical-align: middle; 
-    
     object-fit: contain;
-    transition: transform 0.3s ease;
     
-    /* ⭐ ADJUST THIS: Add space below the logo if needed */
-    /* margin-bottom: 5px; */
+    /* 2. THE COLOR TRICK: */
+    /* Create a shadow that matches your --primary-accent blue, positioned 100px below */
+    filter: drop-shadow(0 100px 0 var(--primary-accent));
+    
+    /* 3. Move the actual image UP by 100px. */
+    /* This pushes the white original out of the "window" (hidden), */
+    /* and pulls the blue shadow exactly into the center. */
+    transform: translateY(-100px);
+    
+    transition: transform 0.3s ease;
 }
 
 .logo-trigger a:hover img {
-    /* ⭐ ADJUST THIS: How much it zooms when hovered */
-    /* 1.05 = 5% bigger (subtle) */
-    /* 1.1 = 10% bigger (obvious) */
-    transform: scale(1.05);
+    /* When hovering, we keep the -100px shift and ADD the zoom scale */
+    transform: translateY(-100px) scale(1.05);
 }
 
 @media (max-width: 1024px) {
     .logo-trigger img {
-        /* ⭐ ADJUST THIS: Logo size specifically for Mobile Phones */
         height: 2.2rem;
     }
 }
