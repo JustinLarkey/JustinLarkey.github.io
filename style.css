@@ -652,33 +652,31 @@ main {
 .logo-trigger a {
     display: inline-block;
     line-height: 0;
-    
-    /* 1. We create a "window" that is the exact size of the image */
-    overflow: hidden; 
+    overflow: hidden; /* Hides the original white image */
 }
 
 .logo-trigger img {
-    /* Height controls the size */
-    height: 3rem; 
+    height: 3.2rem; 
     width: auto;
     vertical-align: middle; 
     object-fit: contain;
     
-    /* 2. THE COLOR TRICK: */
-    /* Create a shadow that matches your --primary-accent blue, positioned 100px below */
-    filter: drop-shadow(0 100px 0 var(--primary-accent));
+    /* 1. DEFAULT STATE: Light Blue (Matches Unlucky/TomSka default) */
+    filter: drop-shadow(0 100px 0 var(--secondary-accent-1));
     
-    /* 3. Move the actual image UP by 100px. */
-    /* This pushes the white original out of the "window" (hidden), */
-    /* and pulls the blue shadow exactly into the center. */
+    /* Move original image out of view, pull colored shadow into view */
     transform: translateY(-100px);
     
-    transition: transform 0.3s ease;
+    /* Smooth transition for the color change */
+    transition: filter 0.3s ease;
 }
 
 .logo-trigger a:hover img {
-    /* When hovering, we keep the -100px shift and ADD the zoom scale */
-    transform: translateY(-100px) scale(1.05);
+    /* 2. HOVER STATE: Bright Blue (Matches Unlucky/TomSka hover) */
+    filter: drop-shadow(0 100px 0 var(--primary-accent));
+    
+    /* Keep the image in the same position (no zoom) */
+    transform: translateY(-100px);
 }
 
 @media (max-width: 1024px) {
