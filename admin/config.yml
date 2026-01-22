@@ -3,7 +3,8 @@ backend:
   repo: JustinLarkey/JustinLarkey.github.io
   branch: main
   auth_type: implicit
-  app_id: Ov23lixr0iNgkMADyXHz
+  client_id: Ov23lixr0iNgkMADyXHz
+  client_secret: 78cb1a56959e1f969323680489ad7fc97de861c8
   
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
