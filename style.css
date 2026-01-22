@@ -684,3 +684,14 @@ main {
         height: 2.2rem;
     }
 }
+
+/* --- Modal Closing Animation --- */
+@keyframes slideOut {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(50px); opacity: 0; }
+}
+
+/* This class is added by JavaScript when the close button is clicked */
+.modal-content.closing {
+    animation: slideOut 0.3s ease-in forwards;
+}
