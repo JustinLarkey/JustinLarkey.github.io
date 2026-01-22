@@ -580,7 +580,7 @@ main {
 }
 
 .logo-trigger img {
-    height: 3.2rem; /* Kept your custom size */
+    height: 3.35rem; /* Kept your custom size */
     width: auto;
     vertical-align: middle; 
     object-fit: contain;
