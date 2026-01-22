@@ -646,3 +646,32 @@ main {
 #walking-contradictions-link:hover {
     color: var(--primary-accent);
 }
+
+/* --- Walking Contradictions Logo Styling --- */
+.logo-trigger a {
+    display: inline-block;
+    line-height: 0; /* Prevents the link from adding extra height */
+}
+
+.logo-trigger img {
+    height: 3.5rem; /* 3.5rem matches the visual weight of the 3rem text headers */
+    width: auto;    /* Keeps the aspect ratio correct */
+    vertical-align: bottom; /* Aligns the logo with the baseline of the text */
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    
+    /* OPTIONAL: If your image is white but looks too bright, you can dim it slightly */
+    /* opacity: 0.9; */
+}
+
+/* Hover effect */
+.logo-trigger a:hover img {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Mobile Adjustment: Make it slightly smaller on phones to fit screen */
+@media (max-width: 1024px) {
+    .logo-trigger img {
+        height: 2.5rem;
+    }
+}
