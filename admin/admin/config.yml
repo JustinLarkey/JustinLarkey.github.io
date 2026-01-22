@@ -5,11 +5,6 @@ backend:
   auth_type: implicit
   app_id: Ov23lixr0iNgkMADyXHz
   
-backend:
-  name: github
-  repo: JustinLarkey/JustinLarkey.github.io
-  branch: main
-
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
