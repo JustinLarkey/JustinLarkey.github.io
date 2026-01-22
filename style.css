@@ -568,3 +568,81 @@ main {
 .nav-menu li:has(> a[href="#contact"]) {
     display: none !important;
 }
+
+/* --- Modal Popup Styles --- */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 2000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden; 
+    background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+    backdrop-filter: blur(5px); /* Nice blur effect behind modal */
+}
+
+.modal-content {
+    background-color: #121212;
+    margin: 5vh auto; /* Center vertically */
+    padding: 0;
+    border: 1px solid #333;
+    width: 90%; 
+    max-width: 450px; /* Keep it phone-sized like the SubmitHub link */
+    height: 80vh; /* Takes up 80% of screen height */
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-button {
+    color: #fff;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    z-index: 2001;
+    cursor: pointer;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.3);
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-button:hover {
+    color: var(--primary-accent);
+    background: rgba(0,0,0,0.8);
+}
+
+.modal-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    border-radius: 12px;
+}
+
+/* Ensure the link looks like a link before clicking */
+#walking-contradictions-link {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+#walking-contradictions-link:hover {
+    color: var(--primary-accent);
+}
