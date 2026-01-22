@@ -29,12 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Set up the Intersection Observer
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
-            // If the element is on screen (isIntersecting)
             if (entry.isIntersecting) {
-                // Add the 'is-visible' class to trigger the animation
                 entry.target.classList.add('is-visible');
-                
-                // We only want the animation to happen once
                 observer.unobserve(entry.target);
             }
         });
@@ -42,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
         threshold: 0.15 
     });
 
-    // Loop over every element we selected and tell the observer to watch it
     elementsToReveal.forEach(element => {
         observer.observe(element);
     });
@@ -51,29 +46,44 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("copyright").innerHTML = "© " + new Date().getFullYear() + " Justin Larkey";
 
 
-    // --- MODAL FUNCTIONALITY ---
+    // --- MODAL FUNCTIONALITY (UPDATED) ---
     const modal = document.getElementById("music-modal");
     const link = document.getElementById("walking-contradictions-link");
     const closeBtn = document.querySelector(".close-button");
+    const modalContent = document.querySelector(".modal-content");
+
+    // Function to handle the closing animation
+    function closeModal() {
+        if (!modal || !modalContent) return;
+
+        // 1. Add the CSS class that triggers the slideOut animation
+        modalContent.classList.add("closing");
+
+        // 2. Wait 300ms (matches the 0.3s CSS animation) before hiding
+        setTimeout(() => {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+            
+            // 3. Reset the class so it's ready to slide IN next time
+            modalContent.classList.remove("closing");
+        }, 300);
+    }
 
     if (link && modal && closeBtn) {
+        // Open Modal
         link.addEventListener("click", function(event) {
-            event.preventDefault(); // Stop the link from jumping to top
+            event.preventDefault();
             modal.style.display = "block";
-            document.body.style.overflow = "hidden"; // Stop background scrolling
+            document.body.style.overflow = "hidden";
         });
 
         // Close when clicking the X
-        closeBtn.addEventListener("click", function() {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-        });
+        closeBtn.addEventListener("click", closeModal);
 
         // Close when clicking outside the box
         window.addEventListener("click", function(event) {
             if (event.target == modal) {
-                modal.style.display = "none";
-                document.body.style.overflow = "auto";
+                closeModal();
             }
         });
     }
