@@ -569,7 +569,8 @@ main {
     display: none !important;
 }
 
-/* --- Modal Popup Styles --- */
+
+/* --- Modal Popup Styles (ADDED) --- */
 .modal {
     display: none; 
     position: fixed; 
@@ -647,40 +648,44 @@ main {
     color: var(--primary-accent);
 }
 
-/* --- Walking Contradictions Logo Styling --- */
+/* --- Walking Contradictions Logo Styling (ADDED) --- */
 .logo-trigger a {
     display: inline-block;
     line-height: 0;
 }
 
 .logo-trigger img {
-    /* Changed from 3.5rem to 2rem to match the text height better */
-    height: 2rem; 
+    /* ⭐ ADJUST THIS: Height controls the logo size */
+    /* 3rem = Matches text size perfectly */
+    /* 2.5rem = Smaller */
+    /* 4rem = Bigger */
+    height: 3rem; 
+    
     width: auto;
+    
+    /* ⭐ ADJUST THIS: If the logo sits too high or low */
+    /* middle = usually best */
+    /* bottom = aligns with very bottom of text line */
+    /* sub = aligns slightly lower */
     vertical-align: middle; 
+    
     object-fit: contain;
     transition: transform 0.3s ease;
+    
+    /* ⭐ ADJUST THIS: Add space below the logo if needed */
+    /* margin-bottom: 5px; */
 }
 
 .logo-trigger a:hover img {
+    /* ⭐ ADJUST THIS: How much it zooms when hovered */
+    /* 1.05 = 5% bigger (subtle) */
+    /* 1.1 = 10% bigger (obvious) */
     transform: scale(1.05);
 }
 
 @media (max-width: 1024px) {
     .logo-trigger img {
-        /* Even smaller on mobile */
-        height: 1.5rem;
-    }
-}
-
-/* Hover effect */
-.logo-trigger a:hover img {
-    transform: scale(1.05); /* Slight zoom on hover */
-}
-
-/* Mobile Adjustment: Make it slightly smaller on phones to fit screen */
-@media (max-width: 1024px) {
-    .logo-trigger img {
-        height: 2.5rem;
+        /* ⭐ ADJUST THIS: Logo size specifically for Mobile Phones */
+        height: 2.2rem;
     }
 }
