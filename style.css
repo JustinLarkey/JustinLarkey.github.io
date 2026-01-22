@@ -130,7 +130,9 @@ main {
     }
 }
 
-/* Desktop layout */
+/* Desktop layout: expand content width so the page feels balanced when
+    the nav sticks to the right. Increase max-width and reduce excessive
+    whitespace on wide screens. */
 @media (min-width: 1025px) {
     main {
         margin: 0 auto;
@@ -141,7 +143,10 @@ main {
     }
 }
 
-/* Shift only the About section to the right on large screens */
+/* Shift only the About section to the right on large screens so the
+   description extends closer to the floating nav without overlapping it.
+   This keeps other sections centered while giving About a right-aligned
+   layout for emphasis. */
 @media (min-width: 1280px) {
     #about {
         display: block;
@@ -189,7 +194,8 @@ main {
         background-color: var(--nav-bg);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
-        border-radius: 8px 0 0 8px; 
+        /* *** REVERTED THIS CHANGE *** */
+        border-radius: 8px 0 0 8px; /* Was 8px */
         z-index: 1001;
         box-shadow: 0 6px 18px rgba(0,0,0,0.25);
         -webkit-transform: none;
@@ -249,9 +255,10 @@ main {
         background-color: var(--nav-bg);
         position: fixed;
         top: 50%;
-        right: calc(var(--nav-button-width) + 12px); 
+    right: calc(var(--nav-button-width) + 12px); 
         transform: translateY(-50%);
-        border-radius: 8px; 
+        /* *** THIS IS THE CHANGE *** */
+        border-radius: 8px; /* Was 8px 0 0 8px */
         min-width: 150px;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
@@ -296,27 +303,17 @@ main {
 .project-item {
     padding: 2rem 0;
     border-bottom: 1px solid #333; 
-    /* No transition on the row background needed */
+    transition: background-color 0.3s ease;
 }
 
 .project-item:first-child {
     border-top: 1px solid #333;
 }
 
-/* Base style for ALL project titles */
 .project-item h3 {
     font-size: 3rem;
     font-weight: 700; 
     margin: 0;
-    /* This ensures the color fade is smooth when you hover the text */
-    transition: color 0.3s ease; 
-    cursor: pointer;
-}
-
-/* Ensure links inside titles inherit the transition */
-.project-item h3 a {
-    color: inherit;
-    text-decoration: none;
     transition: color 0.3s ease;
 }
 
@@ -336,70 +333,10 @@ main {
     font-size: 1.1rem; 
 }
 
-/* 1. STANDARD HOVER: For regular text items */
-/* Triggers ONLY when hovering the H3 itself */
-.project-item h3:hover {
+
+.project-item:hover h3 {
     color: var(--primary-accent);
 }
-
-/* --- Special Rule for "Unlucky" --- */
-#project-unlucky h3 {
-    font-family: 'Lobster', cursive;
-    font-weight: 400; 
-    color: var(--secondary-accent-1); /* Default Light Blue */
-    font-size: 3.25rem; 
-}
-
-/* 2. UNLUCKY HOVER: Triggers ONLY when hovering the H3/Link */
-#project-unlucky h3:hover,
-#project-unlucky h3 a:hover {
-    color: var(--primary-accent);
-}
-
-/* --- Special Rule for "TomSka" --- */
-#project-tomska h3 {
-    color: var(--secondary-accent-1); /* Default Light Blue */
-}
-
-/* 3. TOMSKA HOVER: Triggers ONLY when hovering the H3/Link */
-#project-tomska h3:hover,
-#project-tomska h3 a:hover {
-    color: var(--primary-accent);
-}
-
-/* --- Walking Contradictions Logo Styling --- */
-.logo-trigger a {
-    display: inline-block;
-    line-height: 0;
-    overflow: hidden;
-}
-
-.logo-trigger img {
-    height: 3.5rem; 
-    width: auto;
-    vertical-align: middle; 
-    object-fit: contain;
-    
-    /* Default: Light Blue */
-    filter: drop-shadow(0 100px 0 var(--secondary-accent-1));
-    transform: translateY(-100px);
-    
-    /* Smooth fade transition */
-    transition: filter 0.3s ease;
-}
-
-/* 4. LOGO HOVER: Triggers ONLY when hovering the LINK wrapping the image */
-.logo-trigger a:hover img {
-    filter: drop-shadow(0 100px 0 var(--primary-accent));
-    transform: translateY(-100px);
-}
-
-@media (max-width: 1024px) {
-    .logo-trigger img {
-        height: 2.2rem;
-    }
-}
-
 
 /* --- Contact Link --- */
 .contact-link {
@@ -415,6 +352,40 @@ main {
 .contact-link:hover {
     border-color: var(--primary-accent);
 }
+
+/* --- Special Rule for "Unlucky" --- */
+#project-unlucky h3 {
+    font-family: 'Lobster', cursive;
+    font-weight: 400; 
+    color: var(--secondary-accent-1); 
+    font-size: 3.25rem; 
+}
+
+#project-unlucky h3 a {
+    color: inherit; 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#project-unlucky h3 a:hover {
+    color: var(--primary-accent); 
+}
+
+/* --- Special Rule for "TomSka" --- */
+#project-tomska h3 {
+    color: var(--secondary-accent-1); 
+}
+
+#project-tomska h3 a {
+    color: inherit; 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#project-tomska h3 a:hover {
+    color: var(--primary-accent); 
+}
+
 
 /* ----------------------------------
   *** SCROLL ANIMATION CODE ***
@@ -632,17 +603,6 @@ main {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* --- Modal Closing Animation (ADDED) --- */
-@keyframes slideOut {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(50px); opacity: 0; }
-}
-
-/* This class is added by JavaScript when the close button is clicked */
-.modal-content.closing {
-    animation: slideOut 0.3s ease-in forwards;
-}
-
 .close-button {
     color: #fff;
     position: absolute;
@@ -686,4 +646,41 @@ main {
 
 #walking-contradictions-link:hover {
     color: var(--primary-accent);
+}
+
+/* --- Walking Contradictions Logo Styling --- */
+.logo-trigger a {
+    display: inline-block;
+    line-height: 0;
+    overflow: hidden; /* Hides the original white image */
+}
+
+.logo-trigger img {
+    height: 3.2rem; 
+    width: auto;
+    vertical-align: middle; 
+    object-fit: contain;
+    
+    /* 1. DEFAULT STATE: Light Blue (Matches Unlucky/TomSka default) */
+    filter: drop-shadow(0 100px 0 var(--secondary-accent-1));
+    
+    /* Move original image out of view, pull colored shadow into view */
+    transform: translateY(-100px);
+    
+    /* Smooth transition for the color change */
+    transition: filter 0.3s ease;
+}
+
+.logo-trigger a:hover img {
+    /* 2. HOVER STATE: Bright Blue (Matches Unlucky/TomSka hover) */
+    filter: drop-shadow(0 100px 0 var(--primary-accent));
+    
+    /* Keep the image in the same position (no zoom) */
+    transform: translateY(-100px);
+}
+
+@media (max-width: 1024px) {
+    .logo-trigger img {
+        height: 2.2rem;
+    }
 }
