@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Red+Hat+Display:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="impossible.wav" as="audio" type="audio/wav">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
@@ -46,6 +47,36 @@
                     </h3>
                     <p class="project-medium">Independent Music Project</p>
                     <p>Original music released under a single creative identity, handling songwriting, production, engineering, and mixing, while collaborating with other musicians for instrumental performances.</p>
+                </article>
+
+                <article class="project-item reveal-on-scroll" id="project-impossible">
+                    <h3>Impossible</h3>
+                    <p class="project-medium">Original Song</p>
+                    <p>Lyrics, Composition, and Vocals - Justin Larkey</p>
+                    <p>Guitar and Bass - Mel Patrone</p>
+                    <p>Mix Engineer - Justin Larkey</p>
+                    <div class="project-audio-player" data-audio-player>
+                        <audio preload="metadata" class="project-audio-element">
+                            <source src="impossible.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="audio-controls">
+                            <button type="button" class="audio-btn play-pause" aria-label="Play Impossible">
+                                <i class="fa-solid fa-play" aria-hidden="true"></i>
+                            </button>
+                            <span class="audio-loading" aria-live="polite" aria-atomic="true">
+                                <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                                Loading
+                            </span>
+                            <span class="audio-time current-time">0:00</span>
+                            <input type="range" class="audio-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek through Impossible">
+                            <span class="audio-time duration">0:00</span>
+                            <button type="button" class="audio-btn mute-toggle" aria-label="Mute Impossible">
+                                <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+                            </button>
+                            <input type="range" class="audio-volume" min="0" max="1" value="0.5" step="0.01" aria-label="Adjust Impossible volume">
+                        </div>
+                    </div>
                 </article>
 
                 <article class="project-item reveal-on-scroll" id="project-unlucky">
