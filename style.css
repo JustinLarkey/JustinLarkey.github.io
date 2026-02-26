@@ -364,6 +364,54 @@ main {
     color: var(--primary-accent);
 }
 
+.impossible-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(240px, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.impossible-main {
+    min-width: 0;
+    align-self: start;
+}
+
+.lyrics-box {
+    border: 1px solid #333;
+    border-radius: 14px;
+    background-color: #1e1e1e;
+    padding: 0.9rem 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.lyrics-box h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aaa;
+}
+
+.lyrics-scroll {
+    margin-top: 0.65rem;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    flex: 1;
+    height: 100%;
+    min-height: 0;
+}
+
+.lyrics-placeholder {
+    margin: 0;
+    color: #aaa;
+    font-style: italic;
+}
+
 .project-audio-player {
     display: block;
     width: min(100%, 560px);
@@ -376,13 +424,40 @@ main {
 
 .audio-controls {
     display: grid;
-    grid-template-columns: auto auto auto minmax(120px, 1fr) auto auto minmax(120px, 1fr);
+    grid-template-columns: auto auto minmax(160px, 1fr) auto;
+    grid-template-areas:
+        "play current seek duration"
+        "mute volume volume loading";
     align-items: center;
     gap: 0.75rem;
     padding: 0.8rem 1rem;
     border: 1px solid #333;
     border-radius: 14px;
     background-color: #1e1e1e;
+}
+
+.play-pause {
+    grid-area: play;
+}
+
+.current-time {
+    grid-area: current;
+}
+
+.audio-seek {
+    grid-area: seek;
+}
+
+.duration {
+    grid-area: duration;
+}
+
+.mute-toggle {
+    grid-area: mute;
+}
+
+.audio-volume {
+    grid-area: volume;
 }
 
 .audio-btn {
@@ -412,14 +487,13 @@ main {
 }
 
 .audio-loading {
+    grid-area: loading;
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    justify-content: flex-end;
     color: #aaa;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    min-width: 5.4rem;
+    font-size: 0.95rem;
+    min-width: 1rem;
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -442,18 +516,21 @@ main {
 }
 
 @media (max-width: 1024px) {
+    .impossible-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .lyrics-box {
+        max-height: 320px;
+    }
+
     .project-audio-player {
         width: min(92%, 560px);
     }
 
     .audio-controls {
-        grid-template-columns: auto auto auto minmax(90px, 1fr) auto;
+        grid-template-columns: auto auto minmax(90px, 1fr) auto;
         row-gap: 0.7rem;
-    }
-
-    .audio-volume,
-    .mute-toggle {
-        grid-column: span 2;
     }
 }
 
@@ -535,7 +612,8 @@ main {
 }
 
 .project-item.is-visible > .project-audio-player,
-#project-impossible.is-visible > .project-audio-player {
+#project-impossible.is-visible > .project-audio-player,
+#project-impossible.is-visible > .impossible-layout {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.45s; /* 4th: Audio Player */
