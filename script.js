@@ -45,40 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Auto-update copyright year
     document.getElementById("copyright").innerHTML = "© " + new Date().getFullYear() + " Justin Larkey";
 
-    const impossibleLayouts = document.querySelectorAll('.impossible-layout');
-
-    function syncLyricsBoxHeights() {
-        impossibleLayouts.forEach(layout => {
-            const mainColumn = layout.querySelector('.impossible-main');
-            const lyricsBox = layout.querySelector('.lyrics-box');
-
-            if (!mainColumn || !lyricsBox) {
-                return;
-            }
-
-            if (window.innerWidth <= 1024) {
-                lyricsBox.style.height = '';
-                return;
-            }
-
-            lyricsBox.style.height = '';
-            const targetHeight = Math.ceil(mainColumn.getBoundingClientRect().height);
-            lyricsBox.style.height = `${targetHeight}px`;
-        });
-    }
-
-    let lyricsSyncFrame;
-    function queueLyricsHeightSync() {
-        if (lyricsSyncFrame) {
-            cancelAnimationFrame(lyricsSyncFrame);
-        }
-        lyricsSyncFrame = requestAnimationFrame(syncLyricsBoxHeights);
-    }
-
-    queueLyricsHeightSync();
-    window.addEventListener('resize', queueLyricsHeightSync);
-    window.addEventListener('load', queueLyricsHeightSync);
-
     const audioPlayers = document.querySelectorAll('[data-audio-player]');
 
     function formatTime(seconds) {
@@ -168,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function() {
             seekInput.max = duration;
             durationEl.textContent = formatTime(duration);
             setLoadingState(false);
-            queueLyricsHeightSync();
         });
 
         audio.addEventListener('loadeddata', () => {
