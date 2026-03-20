@@ -123,30 +123,58 @@ document.addEventListener("DOMContentLoaded", function() {
             audio.currentTime = Number(seekInput.value);
         });
 
+        seekInput.addEventListener('mousedown', () => {
+            seekInput.classList.add('is-seeking');
+        });
+
+        seekInput.addEventListener('touchstart', () => {
+            seekInput.classList.add('is-seeking');
+        });
+
+        seekInput.addEventListener('mouseup', () => {
+            seekInput.classList.remove('is-seeking');
+        });
+
+        seekInput.addEventListener('touchend', () => {
+            seekInput.classList.remove('is-seeking');
+        });
+
         volumeInput.addEventListener('input', () => {
             audio.volume = Number(volumeInput.value);
             audio.muted = audio.volume === 0;
             setVolumeIcon(muteBtn, audio);
         });
 
-        audio.addEventListener('loadedmetadata', () => {
+        function updateDurationDisplay() {
             const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-            seekInput.max = duration;
-            durationEl.textContent = formatTime(duration);
+            if (duration > 0) {
+                seekInput.max = duration;
+                durationEl.textContent = formatTime(duration);
+            }
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            updateDurationDisplay();
             setLoadingState(false);
         });
 
         audio.addEventListener('loadeddata', () => {
+            updateDurationDisplay();
             setLoadingState(false);
         });
 
-        audio.addEventListener('timeupdate', () => {
-            seekInput.value = audio.currentTime;
-            currentTimeEl.textContent = formatTime(audio.currentTime);
+        audio.addEventListener('play', () => {
+            // Ensure duration is set when playback starts
+            updateDurationDisplay();
+            setPlayIcon(playPauseBtn, true);
         });
 
-        audio.addEventListener('play', () => {
-            setPlayIcon(playPauseBtn, true);
+        audio.addEventListener('timeupdate', () => {
+            // Only update slider if user isn't actively seeking
+            if (!seekInput.classList.contains('is-seeking')) {
+                seekInput.value = audio.currentTime;
+            }
+            currentTimeEl.textContent = formatTime(audio.currentTime);
         });
 
         audio.addEventListener('loadstart', () => {
@@ -186,6 +214,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         audio.addEventListener('ended', () => {
+            seekInput.value = 0;
+            seekInput.classList.remove('is-seeking');
             setPlayIcon(playPauseBtn, false);
             setLoadingState(false);
         });
