@@ -427,13 +427,10 @@ function App() {
     });
   }, [searchQuery, sortBy]);
 
-  const geminiApiKey = 'AIzaSyBp9HpVHs_YSuFGBGz62Bskx3tO4_PX45E';
+  const aiProxyEndpoints = ['/api/gemini', '/.netlify/functions/gemini'];
 
   const fetchGemini = async (prompt, isJson = false, systemInstruction = "") => {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(geminiApiKey)}`;
-    const payload = { contents: [{ parts: [{ text: prompt }] }] };
-    if (systemInstruction) payload.systemInstruction = { parts: [{ text: systemInstruction }] };
-    if (isJson) payload.generationConfig = { responseMimeType: "application/json" };
+    const payload = { prompt, isJson, systemInstruction };
 
     let retries = 5;
     let delay = 1000;
@@ -456,13 +453,35 @@ function App() {
 
     while (retries > 0) {
       try {
-        const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          const apiMessage = data?.error?.message || `HTTP ${res.status}`;
-          throw new Error(apiMessage);
+        let lastResponseError = null;
+        let text = '';
+
+        for (const endpoint of aiProxyEndpoints) {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (res.status === 404) {
+            lastResponseError = new Error(`Proxy not found at ${endpoint}`);
+            continue;
+          }
+
+          if (!res.ok) {
+            const apiMessage = data?.error || data?.message || `HTTP ${res.status}`;
+            throw new Error(apiMessage);
+          }
+
+          text = data?.text;
+          break;
         }
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!text) {
+          throw lastResponseError || new Error('AI proxy is unavailable. Deploy the server endpoint and set GEMINI_API_KEY.');
+        }
+
         return isJson ? parseJsonSafe(text) : text;
       } catch (e) {
         lastError = e;
