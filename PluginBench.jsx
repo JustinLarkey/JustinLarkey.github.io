@@ -550,13 +550,12 @@ function App() {
   const sortedMacModels = [...macModels].sort((a, b) => a.multi - b.multi);
 
   return (
-    <div className="min-h-screen font-sans selection:bg-[rgba(0,191,255,0.25)]">
+    <div className="min-h-screen selection:bg-[rgba(0,191,255,0.25)]">
       <header className="border-b border-[#333333] bg-[rgba(30,30,30,0.88)] backdrop-blur sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3 text-[#00bfff]">
             <Activity className="w-6 h-6" />
-            <h1 className="text-xl font-bold tracking-tight text-[#f0f0f0]">PluginBench</h1>
-            <span className="bg-[rgba(0,191,255,0.12)] text-[#00bfff] px-2 py-0.5 rounded text-xs font-medium uppercase tracking-wider ml-2">Session Calculator</span>
+            <h1 className="text-xl font-black tracking-tight text-[#f0f0f0]">PluginBench <span className="text-base font-bold text-[#90e0ef]">(Beta)</span></h1>
           </div>
         </div>
       </header>
@@ -565,7 +564,7 @@ function App() {
         <section className="bg-[#1e1e1e] border border-[#333333] rounded-2xl p-5 shadow-xl">
           <div className="flex items-center gap-2 text-[#aaaaaa] mb-4 pb-4 border-b border-[#333333]">
             <Settings2 className="w-4 h-4" />
-            <h2 className="text-sm font-semibold uppercase tracking-wider">Global Environment Settings</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider">Global Environment Settings</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
             <div className="space-y-2">
@@ -628,9 +627,9 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <section className="lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl flex flex-col overflow-hidden h-[600px] lg:h-[750px]">
             <div className="p-4 border-b border-neutral-800 bg-neutral-900 shrink-0">
-              <div className="flex items-center gap-2 text-neutral-400 mb-4"><Search className="w-4 h-4" /><h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-300">Library</h2></div>
+              <div className="flex items-center gap-2 text-neutral-400 mb-4"><Search className="w-4 h-4" /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Library</h2></div>
               <div className="mb-4 p-3 bg-cyan-950/30 border border-cyan-900/50 rounded-xl space-y-2">
-                <div className="flex items-center gap-2 text-cyan-400"><Sparkles className="w-4 h-4" /><span className="text-xs font-semibold tracking-wider">AI ASSISTANT</span></div>
+                <div className="flex items-center gap-2 text-cyan-400"><Sparkles className="w-4 h-4" /><span className="text-xs font-bold tracking-wider">AI ASSISTANT</span></div>
                 <div className="flex gap-2">
                   <input type="text" placeholder="e.g. 'Warm vintage vocal chain'" value={chainPrompt} onChange={(e) => setChainPrompt(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleGenerateChain()} className="w-full bg-neutral-950 border border-cyan-900/50 text-white rounded-lg px-3 py-1.5 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all placeholder:text-neutral-600" />
                   <button onClick={handleGenerateChain} disabled={isGenerating || !chainPrompt.trim()} className="shrink-0 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white rounded-lg px-3 transition-colors flex items-center justify-center min-w-[40px]">{isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}</button>
@@ -652,7 +651,7 @@ function App() {
                  const showHeader = sortBy === 'vendor' && (idx === 0 || arr[idx-1].vendor !== plugin.vendor);
                  return <React.Fragment key={plugin.id}>{showHeader && <div className="px-3 pt-4 pb-1 text-xs font-bold text-neutral-500 uppercase tracking-widest sticky top-0 bg-neutral-900/90 backdrop-blur z-10">{plugin.vendor}</div>}
                    <button onClick={() => addPluginToActive(plugin)} className="w-full text-left group flex items-center justify-between p-3 rounded-lg hover:bg-neutral-800 transition-all border border-transparent hover:border-neutral-700">
-                     <div className="flex flex-col min-w-0 pr-2">{sortBy !== 'vendor' && <span className="text-[10px] text-neutral-500">{plugin.vendor}</span>}<span className="text-sm font-semibold truncate group-hover:text-cyan-400">{plugin.name}</span></div>
+                     <div className="flex flex-col min-w-0 pr-2">{sortBy !== 'vendor' && <span className="text-[10px] text-neutral-500">{plugin.vendor}</span>}<span className="text-sm font-medium truncate group-hover:text-cyan-400">{plugin.name}</span></div>
                      <div className="flex items-center gap-3 shrink-0"><span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border" style={categoryStyles[plugin.category]}>{plugin.category}</span><div className="w-8 h-8 rounded bg-neutral-950 border border-neutral-800 flex items-center justify-center group-hover:bg-cyan-500 transition-all"><Plus className="w-4 h-4 text-neutral-400 group-hover:text-neutral-950" /></div></div>
                    </button>
                  </React.Fragment>;
@@ -706,7 +705,7 @@ function App() {
           </section>
 
           <section className="lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl p-6 flex flex-col shadow-xl h-[600px] lg:h-[750px]">
-            <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4 shrink-0"><Cpu className="w-4 h-4" /><h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-300">Performance</h2></div>
+            <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4 shrink-0"><Cpu className="w-4 h-4" /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Performance</h2></div>
             <div className="flex-1 space-y-8 overflow-y-auto pr-2">
               <div>
                 <div className="flex justify-between items-end mb-2"><div><h3 className="text-sm font-medium text-neutral-300">Session Total</h3><p className="text-[10px] text-neutral-500">Multi-core utilization across {chains.length} tracks.</p></div><span className={`text-xl font-mono font-bold ${willGlitchMulti ? 'text-red-400' : 'text-purple-400'}`}>{multiCorePercent.toFixed(1)}%</span></div>
@@ -728,12 +727,12 @@ function App() {
 
         {sessionTotalCost > 0 && (
           <section className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-2xl mt-6">
-            <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4"><HardDrive className="w-5 h-5" /><h2 className="text-base font-semibold text-white tracking-wide">Hardware Comparison</h2></div>
+            <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4"><HardDrive className="w-5 h-5" /><h2 className="text-base font-bold text-white tracking-wide">Hardware Comparison</h2></div>
             <div className="overflow-x-auto"><div className="min-w-[700px] space-y-1 py-2">{sortedMacModels.map(mac => {
               const mCap = mac.multi * (cpuBudget/100);
               const mGlitch = sessionTotalCost > mCap || heaviestChainCost > mac.single * (cpuBudget/100);
               return <div key={mac.id} className={`group flex items-center gap-4 py-2 px-3 rounded-lg transition-colors ${selectedMacId === mac.id ? 'bg-neutral-950 ring-1 ring-purple-500/50 shadow-lg' : 'hover:bg-neutral-800/50'}`}>
-                <div className="w-64 flex flex-col"><span className={`text-sm font-semibold ${selectedMacId === mac.id ? 'text-purple-400' : 'text-neutral-200'}`}>{mac.name}</span><span className="text-[10px] font-mono text-neutral-500">{mac.formFactor} &middot; {mac.multi} Multi Units</span></div>
+                <div className="w-64 flex flex-col"><span className={`text-sm font-bold ${selectedMacId === mac.id ? 'text-purple-400' : 'text-neutral-200'}`}>{mac.name}</span><span className="text-[10px] font-mono text-neutral-500">{mac.formFactor} &middot; {mac.multi} Multi Units</span></div>
                 <div className="w-24 text-right pr-4 border-r border-neutral-800 shrink-0">{mGlitch ? <span className="text-[10px] font-bold text-red-500 uppercase">Overload</span> : <span className="text-sm font-mono font-bold text-neutral-300">{(sessionTotalCost/mCap*100).toFixed(1)}% <span className="text-[10px] text-neutral-500">Used</span></span>}</div>
                 <div className="flex-1 h-2 bg-neutral-800 rounded overflow-hidden"><div className={`h-full transition-all duration-1000 ${mGlitch ? 'bg-red-500/50' : 'bg-purple-500/80'}`} style={{ width: `${Math.min(sessionTotalCost/mCap*100, 100)}%` }} /></div>
                 {selectedMacId === mac.id && <div className="text-[10px] font-bold text-purple-400 px-2 py-1 bg-purple-500/10 rounded">SELECTED</div>}
