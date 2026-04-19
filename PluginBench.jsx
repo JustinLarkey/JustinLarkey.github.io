@@ -540,12 +540,31 @@ function App() {
   const activeChainSingleCost = getChainSingleInstanceCost(activeChain);
   const heaviestChainCost = useMemo(() => Math.max(0, ...chains.map(c => getChainSingleInstanceCost(c))), [chains, sampleRate, bufferSize]);
 
-  const singleCorePercent = (heaviestChainCost / selectedMac.single) * 100;
-  const multiCorePercent = (sessionTotalCost / selectedMac.multi) * 100;
-  const budgetCapacityMulti = selectedMac.multi * (cpuBudget / 100);
-  const willGlitchSingle = singleCorePercent > cpuBudget;
-  const willGlitchMulti = sessionTotalCost > budgetCapacityMulti;
-  const remainingBudget = Math.max(0, budgetCapacityMulti - sessionTotalCost);
+  const getMacPerformance = (mac) => {
+    const multiPercent = mac.multi > 0 ? (sessionTotalCost / mac.multi) * 100 : 0;
+    const singlePercent = mac.single > 0 ? (heaviestChainCost / mac.single) * 100 : 0;
+    const bottleneckPercent = Math.max(multiPercent, singlePercent);
+    return {
+      multiPercent,
+      singlePercent,
+      bottleneckPercent,
+      bottleneckType: singlePercent >= multiPercent ? 'Single' : 'Multi',
+      overBudget: bottleneckPercent > cpuBudget,
+      overSingle: singlePercent > cpuBudget,
+      overMulti: multiPercent > cpuBudget
+    };
+  };
+
+  const selectedMacPerformance = useMemo(
+    () => getMacPerformance(selectedMac),
+    [selectedMac, sessionTotalCost, heaviestChainCost, cpuBudget]
+  );
+
+  const singleCorePercent = selectedMacPerformance.singlePercent;
+  const multiCorePercent = selectedMacPerformance.multiPercent;
+  const willGlitchSingle = selectedMacPerformance.overSingle;
+  const willGlitchMulti = selectedMacPerformance.overMulti;
+  const remainingBudget = Math.max(0, ((selectedMac.multi * cpuBudget) / 100) - sessionTotalCost);
   const maxAdditionalInstances = activeChainSingleCost > 0 ? Math.floor(remainingBudget / activeChainSingleCost) : 0;
   const sortedMacModels = [...macModels].sort((a, b) => a.multi - b.multi);
 
@@ -729,12 +748,14 @@ function App() {
           <section className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-2xl mt-6">
             <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4"><HardDrive className="w-5 h-5" /><h2 className="text-base font-bold text-white tracking-wide">Hardware Comparison</h2></div>
             <div className="overflow-x-auto"><div className="min-w-[700px] space-y-1 py-2">{sortedMacModels.map(mac => {
-              const mCap = mac.multi * (cpuBudget/100);
-              const mGlitch = sessionTotalCost > mCap || heaviestChainCost > mac.single * (cpuBudget/100);
+              const perf = getMacPerformance(mac);
               return <div key={mac.id} className={`group flex items-center gap-4 py-2 px-3 rounded-lg transition-colors ${selectedMacId === mac.id ? 'bg-neutral-950 ring-1 ring-purple-500/50 shadow-lg' : 'hover:bg-neutral-800/50'}`}>
                 <div className="w-64 flex flex-col"><span className={`text-sm font-bold ${selectedMacId === mac.id ? 'text-purple-400' : 'text-neutral-200'}`}>{mac.name}</span><span className="text-[10px] font-mono text-neutral-500">{mac.formFactor} &middot; {mac.multi} Multi Units</span></div>
-                <div className="w-24 text-right pr-4 border-r border-neutral-800 shrink-0">{mGlitch ? <span className="text-[10px] font-bold text-red-500 uppercase">Overload</span> : <span className="text-sm font-mono font-bold text-neutral-300">{(sessionTotalCost/mCap*100).toFixed(1)}% <span className="text-[10px] text-neutral-500">Used</span></span>}</div>
-                <div className="flex-1 h-2 bg-neutral-800 rounded overflow-hidden"><div className={`h-full transition-all duration-1000 ${mGlitch ? 'bg-red-500/50' : 'bg-purple-500/80'}`} style={{ width: `${Math.min(sessionTotalCost/mCap*100, 100)}%` }} /></div>
+                <div className="w-32 text-right pr-4 border-r border-neutral-800 shrink-0">
+                  <span className={`text-sm font-mono font-bold ${perf.overBudget ? 'text-red-500' : 'text-neutral-300'}`}>{perf.bottleneckPercent.toFixed(1)}%</span>
+                  <span className="text-[10px] text-neutral-500 ml-1">{perf.bottleneckType}</span>
+                </div>
+                <div className="flex-1 h-2 bg-neutral-800 rounded overflow-hidden"><div className={`h-full transition-all duration-1000 ${perf.overBudget ? 'bg-red-500/50' : 'bg-purple-500/80'}`} style={{ width: `${Math.min(perf.bottleneckPercent, 100)}%` }} /></div>
                 {selectedMacId === mac.id && <div className="text-[10px] font-bold text-purple-400 px-2 py-1 bg-purple-500/10 rounded">SELECTED</div>}
               </div>;
             })}</div></div>
