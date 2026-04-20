@@ -401,23 +401,42 @@ function App() {
   const showHeaderLogo = false;
 
   useEffect(() => {
-    const elementsToReveal = document.querySelectorAll('.pluginbench-reveal:not(.is-visible)');
-    if (!elementsToReveal.length) return;
+    let observer;
 
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
+    const setupObserver = () => {
+      const elementsToReveal = document.querySelectorAll('.pluginbench-reveal:not(.is-visible)');
+      if (!elementsToReveal.length) return;
+
+      observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15
+      });
+
+      elementsToReveal.forEach((element) => {
+        observer.observe(element);
+        
+        // Check if already in viewport and reveal immediately
+        const rect = element.getBoundingClientRect();
+        if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+          element.classList.add('is-visible');
+          observer.unobserve(element);
         }
       });
-    }, {
-      threshold: 0.15
-    });
+    };
 
-    elementsToReveal.forEach((element) => observer.observe(element));
+    // Defer to ensure DOM is fully updated
+    const rafId = requestAnimationFrame(setupObserver);
 
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(rafId);
+      observer?.disconnect();
+    };
   }, [chains]);
 
   const pageContainerStyle = {
@@ -769,7 +788,7 @@ function App() {
         </div>
 
         {sessionTotalCost > 0 && (
-          <section className="pluginbench-reveal bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-2xl mt-6" style={{ '--pluginbench-reveal-delay': '0.30s' }}>
+          <section className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-2xl mt-6">
             <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4"><HardDrive className="w-5 h-5" /><h2 className="text-base font-bold text-white tracking-wide">Hardware Comparison</h2></div>
             <div className="overflow-x-auto"><div className="min-w-[700px] space-y-1 py-2">{sortedMacModels.map(mac => {
               const perf = getMacPerformance(mac);
