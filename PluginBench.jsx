@@ -370,6 +370,9 @@ const categoryStyles = {
   "Sampler": { backgroundColor: 'rgba(96, 165, 250, 0.10)', color: '#90e0ef', borderColor: 'rgba(96, 165, 250, 0.22)' },
 };
 
+// Set to true to re-enable all AI UI and actions.
+const AI_FEATURE_ENABLED = false;
+
 function App() {
   const [selectedFormFactor, setSelectedFormFactor] = useState('MacBook Pro');
   const [selectedMacId, setSelectedMacId] = useState('mbp_m4p');
@@ -496,6 +499,7 @@ function App() {
   };
 
   const handleGenerateChain = async () => {
+    if (!AI_FEATURE_ENABLED) return;
     if (!chainPrompt.trim()) return;
     setIsGenerating(true);
     setAiError('');
@@ -514,6 +518,7 @@ function App() {
   };
 
   const handleOptimizeChain = async () => {
+    if (!AI_FEATURE_ENABLED) return;
     if (activeChain.plugins.length === 0) return;
     setIsOptimizing(true);
     setAiError('');
@@ -666,13 +671,13 @@ function App() {
           <section className="lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl flex flex-col overflow-hidden h-[600px] lg:h-[750px]">
             <div className="p-4 border-b border-neutral-800 bg-neutral-900 shrink-0">
               <div className="flex items-center gap-2 text-neutral-400 mb-4"><Search className="w-4 h-4" /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Library</h2></div>
-              <div className="mb-4 p-3 bg-cyan-950/30 border border-cyan-900/50 rounded-xl space-y-2">
+              {AI_FEATURE_ENABLED && <div className="mb-4 p-3 bg-cyan-950/30 border border-cyan-900/50 rounded-xl space-y-2">
                 <div className="flex items-center gap-2 text-cyan-400"><Sparkles className="w-4 h-4" /><span className="text-xs font-bold tracking-wider">AI ASSISTANT</span></div>
                 <div className="flex gap-2">
                   <input type="text" placeholder="e.g. 'Warm vintage vocal chain'" value={chainPrompt} onChange={(e) => setChainPrompt(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleGenerateChain()} className="w-full bg-neutral-950 border border-cyan-900/50 text-white rounded-lg px-3 py-1.5 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all placeholder:text-neutral-600" />
                   <button onClick={handleGenerateChain} disabled={isGenerating || !chainPrompt.trim()} className="shrink-0 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white rounded-lg px-3 transition-colors flex items-center justify-center min-w-[40px]">{isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}</button>
                 </div>
-              </div>
+              </div>}
               <div className="relative mb-3">
                 <input type="text" placeholder="Search plugins..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-neutral-950 border border-neutral-700 text-white rounded-lg pl-10 pr-4 py-2 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none" />
                 <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-2.5" />
@@ -717,7 +722,7 @@ function App() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {activeChain.plugins.length > 0 && <button onClick={handleOptimizeChain} disabled={isOptimizing} className="text-xs font-bold text-amber-300 bg-amber-500/10 px-3 py-1.5 rounded flex-1 border border-amber-500/30 transition-all hover:bg-amber-500/20 active:scale-95 flex items-center justify-center gap-1">{isOptimizing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5" />} OPTIMIZE</button>}
+                  {AI_FEATURE_ENABLED && activeChain.plugins.length > 0 && <button onClick={handleOptimizeChain} disabled={isOptimizing} className="text-xs font-bold text-amber-300 bg-amber-500/10 px-3 py-1.5 rounded flex-1 border border-amber-500/30 transition-all hover:bg-amber-500/20 active:scale-95 flex items-center justify-center gap-1">{isOptimizing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5" />} OPTIMIZE</button>}
                   <div className="flex items-center bg-black/30 border border-white/10 rounded-md px-2 py-1.5"><span className="text-[10px] font-bold text-neutral-500 uppercase mr-2">Chains:</span>
                     <select value={activeChain.instances} onChange={(e) => updateActiveChainInstances(parseInt(e.target.value))} className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer">
                       {Array.from({ length: 20 }, (_, i) => i + 1).map(n => <option key={n} value={n} className="bg-neutral-900">{n}</option>)}
@@ -733,12 +738,12 @@ function App() {
                  const cost = getPluginActualCost(plugin.weight, activeChain.format);
                  return <div key={plugin.uniqueId} className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 flex items-center justify-between shadow-xl transition-all hover:bg-white/10">
                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-white/10 group-hover:bg-cyan-400 transition-colors" />
-                   <div className="flex flex-col min-w-0 pr-4 pl-2"><span className="text-[10px] text-neutral-400">#{index + 1} &middot; {plugin.vendor}</span><span className="text-sm font-bold text-white truncate">{plugin.name}</span>{plugin.aiReason && <span className="text-[10px] text-cyan-300 mt-1 italic leading-tight">✨ {plugin.aiReason}</span>}</div>
+                   <div className="flex flex-col min-w-0 pr-4 pl-2"><span className="text-[10px] text-neutral-400">#{index + 1} &middot; {plugin.vendor}</span><span className="text-sm font-bold text-white truncate">{plugin.name}</span>{AI_FEATURE_ENABLED && plugin.aiReason && <span className="text-[10px] text-cyan-300 mt-1 italic leading-tight">✨ {plugin.aiReason}</span>}</div>
                    <div className="flex items-center gap-4 shrink-0"><div className="text-right flex flex-col"><span className="text-[10px] font-mono text-neutral-500 uppercase">Weight</span><span className="text-sm font-mono text-cyan-300 font-bold">{cost.toFixed(1)}</span></div><button onClick={() => removePluginFromActive(plugin.uniqueId)} className="p-2 text-neutral-500 hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button></div>
                  </div>;
                })}</div>
               }
-              {aiError && <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-200 text-xs flex gap-2"><AlertTriangle className="w-4 h-4 shrink-0" /><p>{aiError}</p></div>}
+              {AI_FEATURE_ENABLED && aiError && <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-200 text-xs flex gap-2"><AlertTriangle className="w-4 h-4 shrink-0" /><p>{aiError}</p></div>}
             </div>
           </section>
 
