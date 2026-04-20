@@ -1,4 +1,4 @@
-const { useState, useMemo } = React;
+const { useState, useMemo, useEffect } = React;
 
 function IconShell({ className = '', children, ...props }) {
   return (
@@ -130,7 +130,14 @@ const pluginDatabase = [
   { id: 303, vendor: "UAD", name: "Pultec EQP-1A", weight: 30, category: "EQ" },
   { id: 3031, vendor: "UAD", name: "Pultec MEQ-5", weight: 30, category: "EQ" },
   { id: 3032, vendor: "UAD", name: "Pultec HLF-3C", weight: 15, category: "EQ" },
-  { id: 304, vendor: "UAD", name: "API Vision Channel Strip", weight: 55, category: "Channel Strip" },
+  { id: 304, vendor: "UAD", name: "API Vision Channel Strip", weight: 55, category: "Channel Strip", sections: [
+    { id: 'api_preamp', label: 'Preamp', weight: 8, enabledByDefault: true },
+    { id: 'api_filter', label: 'Filter', weight: 5, enabledByDefault: true },
+    { id: 'api_eq', label: 'EQ', weight: 14, enabledByDefault: true },
+    { id: 'api_comp', label: 'Compressor', weight: 14, enabledByDefault: true },
+    { id: 'api_gate', label: 'Gate/Expander', weight: 8, enabledByDefault: true },
+    { id: 'api_output', label: 'Output', weight: 6, enabledByDefault: true }
+  ] },
   { id: 305, vendor: "UAD", name: "API 2500 Bus Compressor", weight: 40, category: "Dynamics" },
   { id: 306, vendor: "UAD", name: "Neve 1073 Preamp & EQ", weight: 45, category: "EQ" },
   { id: 307, vendor: "UAD", name: "Studer A800 Tape", weight: 45, category: "Saturation" },
@@ -145,7 +152,13 @@ const pluginDatabase = [
   { id: 316, vendor: "UAD", name: "Fairchild 670", weight: 45, category: "Dynamics" },
   { id: 3161, vendor: "UAD", name: "Fairchild 660", weight: 40, category: "Dynamics" },
   { id: 317, vendor: "UAD", name: "Brigade Chorus", weight: 25, category: "Delay" },
-  { id: 318, vendor: "UAD", name: "Century Tube Channel Strip", weight: 50, category: "Channel Strip" },
+  { id: 318, vendor: "UAD", name: "Century Tube Channel Strip", weight: 50, category: "Channel Strip", sections: [
+    { id: 'century_preamp', label: 'Preamp', weight: 10, enabledByDefault: true },
+    { id: 'century_eq', label: 'EQ', weight: 12, enabledByDefault: true },
+    { id: 'century_comp', label: 'Compressor', weight: 16, enabledByDefault: true },
+    { id: 'century_gate', label: 'Gate', weight: 6, enabledByDefault: true },
+    { id: 'century_output', label: 'Output', weight: 6, enabledByDefault: true }
+  ] },
   { id: 319, vendor: "UAD", name: "dbx 160 Compressor", weight: 20, category: "Dynamics" },
   { id: 320, vendor: "UAD", name: "Electra 88 Vintage Keyboard Studio", weight: 95, category: "Synth" },
   { id: 321, vendor: "UAD", name: "Hitsville EQ", weight: 35, category: "EQ" },
@@ -337,8 +350,22 @@ const pluginDatabase = [
   { id: 703, vendor: "iZotope", name: "Ozone 11 Imager", weight: 45, category: "Mastering" },
   { id: 704, vendor: "iZotope", name: "RX 11 Voice De-noise", weight: 110, category: "Restoration" },
   { id: 705, vendor: "iZotope", name: "RX 11 Mouth De-click", weight: 80, category: "Restoration" },
-  { id: 706, vendor: "iZotope", name: "Neutron 4 (Full Strip)", weight: 120, category: "Channel Strip" },
-  { id: 707, vendor: "iZotope", name: "Nectar 4", weight: 100, category: "Channel Strip" },
+  { id: 706, vendor: "iZotope", name: "Neutron 4 (Full Strip)", weight: 120, category: "Channel Strip", sections: [
+    { id: 'neutron_eq', label: 'EQ', weight: 24, enabledByDefault: true },
+    { id: 'neutron_comp', label: 'Compressor', weight: 24, enabledByDefault: true },
+    { id: 'neutron_gate', label: 'Gate', weight: 16, enabledByDefault: true },
+    { id: 'neutron_exciter', label: 'Exciter', weight: 18, enabledByDefault: true },
+    { id: 'neutron_transient', label: 'Transient', weight: 18, enabledByDefault: true },
+    { id: 'neutron_limiter', label: 'Limiter', weight: 20, enabledByDefault: true }
+  ] },
+  { id: 707, vendor: "iZotope", name: "Nectar 4", weight: 100, category: "Channel Strip", sections: [
+    { id: 'nectar_pitch', label: 'Pitch', weight: 16, enabledByDefault: true },
+    { id: 'nectar_eq', label: 'EQ', weight: 18, enabledByDefault: true },
+    { id: 'nectar_comp', label: 'Compression', weight: 20, enabledByDefault: true },
+    { id: 'nectar_deesser', label: 'De-esser', weight: 10, enabledByDefault: true },
+    { id: 'nectar_saturator', label: 'Saturation', weight: 18, enabledByDefault: true },
+    { id: 'nectar_reverbdelay', label: 'Reverb/Delay', weight: 18, enabledByDefault: true }
+  ] },
   { id: 708, vendor: "iZotope", name: "VocalSynth 2", weight: 90, category: "Pitch" },
 
   // Others
@@ -370,10 +397,36 @@ const categoryStyles = {
   "Sampler": { backgroundColor: 'rgba(96, 165, 250, 0.10)', color: '#90e0ef', borderColor: 'rgba(96, 165, 250, 0.22)' },
 };
 
-// Set to true to re-enable all AI UI and actions.
-const AI_FEATURE_ENABLED = false;
-
 function App() {
+  const showHeaderLogo = false;
+
+  useEffect(() => {
+    const elementsToReveal = document.querySelectorAll('.pluginbench-reveal:not(.is-visible)');
+    if (!elementsToReveal.length) return;
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
+
+    elementsToReveal.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, [chains]);
+
+  const pageContainerStyle = {
+    maxWidth: '80rem',
+    margin: '0 auto',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem'
+  };
+
   const [selectedFormFactor, setSelectedFormFactor] = useState('MacBook Pro');
   const [selectedMacId, setSelectedMacId] = useState('mbp_m4p');
   const [sampleRate, setSampleRate] = useState(1.09);
@@ -383,10 +436,6 @@ function App() {
   const [sortBy, setSortBy] = useState('vendor');
   const [chains, setChains] = useState([{ id: 'chain-1', name: 'Track 1', format: 'stereo', instances: 1, plugins: [] }]);
   const [activeChainId, setActiveChainId] = useState('chain-1');
-  const [chainPrompt, setChainPrompt] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isOptimizing, setIsOptimizing] = useState(false);
-  const [aiError, setAiError] = useState('');
 
   const activeChain = chains.find(c => c.id === activeChainId) || chains[0];
   const uniqueFormFactors = useMemo(() => [...new Set(macModels.map(m => m.formFactor))], []);
@@ -399,12 +448,12 @@ function App() {
   const getHardwareIcon = (formFactor) => {
     switch (formFactor) {
       case 'MacBook Air':
-      case 'MacBook Pro': return <Laptop className="w-4 h-4" />;
-      case 'iMac': return <Monitor className="w-4 h-4" />;
-      case 'Mac mini': return <Box className="w-4 h-4" />;
-      case 'Mac Studio': return <Server className="w-4 h-4" />;
-      case 'Mac Pro': return <HardDrive className="w-4 h-4" />;
-      default: return <Monitor className="w-4 h-4" />;
+      case 'MacBook Pro': return <img src="macbook.svg" alt="MacBook" className="w-4 h-4" />;
+      case 'iMac': return <img src="desktopcomputer.svg" alt="iMac" className="w-4 h-4" />;
+      case 'Mac mini': return <img src="macmini.svg" alt="Mac mini" className="w-4 h-4" />;
+      case 'Mac Studio': return <img src="macstudio.svg" alt="Mac Studio" className="w-4 h-4" />;
+      case 'Mac Pro': return <img src="macpro.gen3.svg" alt="Mac Pro" className="w-4 h-4" />;
+      default: return <img src="desktopcomputer.svg" alt="Computer" className="w-4 h-4" />;
     }
   };
 
@@ -430,111 +479,27 @@ function App() {
     });
   }, [searchQuery, sortBy]);
 
-  const aiProxyEndpoints = ['/api/gemini', '/.netlify/functions/gemini'];
+  const buildPluginInstance = (plugin) => {
+    const sectionStates = plugin.sections
+      ? Object.fromEntries(plugin.sections.map(section => [section.id, section.enabledByDefault !== false]))
+      : null;
 
-  const fetchGemini = async (prompt, isJson = false, systemInstruction = "") => {
-    const payload = { prompt, isJson, systemInstruction };
-
-    let retries = 5;
-    let delay = 1000;
-    let lastError = null;
-
-    const parseJsonSafe = (text) => {
-      if (!text || typeof text !== 'string') {
-        throw new Error('AI returned an empty response.');
-      }
-      try {
-        return JSON.parse(text);
-      } catch (_) {
-        const fencedMatch = text.match(/```json\s*([\s\S]*?)\s*```|```\s*([\s\S]*?)\s*```/i);
-        if (fencedMatch) {
-          return JSON.parse(fencedMatch[1] || fencedMatch[2]);
-        }
-        throw new Error(`AI returned invalid JSON: ${text.slice(0, 200)}`);
-      }
+    return {
+      ...plugin,
+      uniqueId: crypto.randomUUID(),
+      ...(sectionStates ? { moduleStates: sectionStates } : {})
     };
+  };
 
-    while (retries > 0) {
-      try {
-        let lastResponseError = null;
-        let text = '';
-
-        for (const endpoint of aiProxyEndpoints) {
-          const res = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          const data = await res.json().catch(() => ({}));
-
-          if (res.status === 404) {
-            lastResponseError = new Error(`Proxy not found at ${endpoint}`);
-            continue;
-          }
-
-          if (!res.ok) {
-            const apiMessage = data?.error || data?.message || `HTTP ${res.status}`;
-            throw new Error(apiMessage);
-          }
-
-          text = data?.text;
-          break;
-        }
-
-        if (!text) {
-          throw lastResponseError || new Error('AI proxy is unavailable. Deploy the server endpoint and set GEMINI_API_KEY.');
-        }
-
-        return isJson ? parseJsonSafe(text) : text;
-      } catch (e) {
-        lastError = e;
-        retries--;
-        if (retries === 0) {
-          throw new Error(lastError?.message || 'Failed to connect to AI after multiple attempts.');
-        }
-        await new Promise(r => setTimeout(r, delay));
-        delay *= 2;
-      }
+  const getPluginEffectiveWeight = (plugin) => {
+    if (!plugin.sections || plugin.sections.length === 0) {
+      return plugin.weight;
     }
-  };
 
-  const handleGenerateChain = async () => {
-    if (!AI_FEATURE_ENABLED) return;
-    if (!chainPrompt.trim()) return;
-    setIsGenerating(true);
-    setAiError('');
-    try {
-      const simplifiedDB = pluginDatabase.map(p => ({ id: p.id, name: p.name, vendor: p.vendor, category: p.category }));
-      const prompt = `User request: "${chainPrompt}". Available plugins: ${JSON.stringify(simplifiedDB)}. Build an audio signal chain based on the request using ONLY the provided plugin IDs. Return a JSON array of objects: [{ "id": 123, "reason": "Why this plugin..." }].`;
-      const result = await fetchGemini(prompt, true, "You are an expert audio engineer. Build logical, professional signal chains.");
-      if (Array.isArray(result)) {
-        const newPlugins = result.map(item => {
-          const plugin = pluginDatabase.find(p => p.id === item.id);
-          return plugin ? { ...plugin, uniqueId: crypto.randomUUID(), aiReason: item.reason } : null;
-        }).filter(Boolean);
-        setChains(chains.map(c => c.id === activeChainId ? { ...c, plugins: newPlugins } : c));
-      }
-    } catch (err) { setAiError("Failed to generate chain: " + err.message); } finally { setIsGenerating(false); }
-  };
-
-  const handleOptimizeChain = async () => {
-    if (!AI_FEATURE_ENABLED) return;
-    if (activeChain.plugins.length === 0) return;
-    setIsOptimizing(true);
-    setAiError('');
-    try {
-      const simplifiedDB = pluginDatabase.map(p => ({ id: p.id, name: p.name, vendor: p.vendor, category: p.category, weight: p.weight }));
-      const currentChainString = activeChain.plugins.map((p, i) => `${i + 1}. ${p.vendor} ${p.name} (Weight: ${p.weight})`).join(', ');
-      const prompt = `Current signal chain: ${currentChainString}. Goal: Recreate this chain's exact sonic purpose using ONLY the available plugins below, but choose options that reduce the TOTAL CPU weight. Try to match the original plugin count or combine functions if a lighter alternative exists. Available plugins: ${JSON.stringify(simplifiedDB)}. Return a JSON array of objects: [{ "id": 123, "reason": "Explain why this replaces [Original Plugin] to save CPU..." }].`;
-      const result = await fetchGemini(prompt, true, "You are an expert audio engineer optimizing a mix for CPU efficiency.");
-      if (Array.isArray(result)) {
-        const newPlugins = result.map(item => {
-          const plugin = pluginDatabase.find(p => p.id === item.id);
-          return plugin ? { ...plugin, uniqueId: crypto.randomUUID(), aiReason: item.reason } : null;
-        }).filter(Boolean);
-        setChains(chains.map(c => c.id === activeChainId ? { ...c, plugins: newPlugins } : c));
-      }
-    } catch (err) { setAiError("Failed to optimize chain: " + err.message); } finally { setIsOptimizing(false); }
+    return plugin.sections.reduce((sum, section) => {
+      const enabled = plugin.moduleStates?.[section.id] ?? (section.enabledByDefault !== false);
+      return enabled ? sum + section.weight : sum;
+    }, 0);
   };
 
   const createNewChain = () => {
@@ -552,12 +517,29 @@ function App() {
 
   const updateActiveChainFormat = (format) => setChains(chains.map(c => c.id === activeChainId ? { ...c, format } : c));
   const updateActiveChainInstances = (instances) => setChains(chains.map(c => c.id === activeChainId ? { ...c, instances } : c));
-  const addPluginToActive = (plugin) => setChains(chains.map(c => c.id === activeChainId ? { ...c, plugins: [...c.plugins, { ...plugin, uniqueId: crypto.randomUUID() }] } : c));
+  const addPluginToActive = (plugin) => setChains(chains.map(c => c.id === activeChainId ? { ...c, plugins: [...c.plugins, buildPluginInstance(plugin)] } : c));
   const removePluginFromActive = (uniqueId) => setChains(chains.map(c => c.id === activeChainId ? { ...c, plugins: c.plugins.filter(p => p.uniqueId !== uniqueId) } : c));
+  const clearActiveChain = () => setChains(chains.map(c => c.id === activeChainId ? { ...c, plugins: [] } : c));
+  const togglePluginSectionInActive = (uniqueId, sectionId) => setChains(chains.map(c => c.id === activeChainId ? {
+    ...c,
+    plugins: c.plugins.map(p => {
+      if (p.uniqueId !== uniqueId || !p.sections) {
+        return p;
+      }
+      const currentState = p.moduleStates?.[sectionId] ?? true;
+      return {
+        ...p,
+        moduleStates: {
+          ...(p.moduleStates || {}),
+          [sectionId]: !currentState
+        }
+      };
+    })
+  } : c));
 
   const getFormatMultiplier = (format) => format === 'mono' ? 0.6 : 1.0;
   const getPluginActualCost = (baseWeight, format) => baseWeight * sampleRate * bufferSize * getFormatMultiplier(format);
-  const getChainSingleInstanceCost = (chain) => chain.plugins.reduce((acc, p) => acc + getPluginActualCost(p.weight, chain.format), 0);
+  const getChainSingleInstanceCost = (chain) => chain.plugins.reduce((acc, p) => acc + getPluginActualCost(getPluginEffectiveWeight(p), chain.format), 0);
   const getChainTotalCost = (chain) => getChainSingleInstanceCost(chain) * (chain.instances || 1);
 
   const sessionTotalCost = useMemo(() => chains.reduce((acc, c) => acc + getChainTotalCost(c), 0), [chains, sampleRate, bufferSize]);
@@ -592,21 +574,45 @@ function App() {
   const maxAdditionalInstances = activeChainSingleCost > 0 ? Math.floor(remainingBudget / activeChainSingleCost) : 0;
   const sortedMacModels = [...macModels].sort((a, b) => a.multi - b.multi);
 
+  const normalizedLoad = selectedMac.multi > 0 ? Math.min(sessionTotalCost / selectedMac.multi, 1) : 0;
+  const chainDensity = Math.min(activeChain.plugins.length / 12, 1);
+  const reactiveGlowAlpha = Math.min(0.26, 0.04 + normalizedLoad * 0.18 + chainDensity * 0.06);
+  const reactiveOverlayOpacity = reactiveGlowAlpha.toFixed(3);
+  const reactiveOverlayShiftY = `${(chainDensity * 20).toFixed(1)}px`;
+
   return (
-    <div className="min-h-screen selection:bg-[rgba(0,191,255,0.25)]">
-      <header className="border-b border-[#333333] bg-[rgba(30,30,30,0.88)] backdrop-blur sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div
+      className="pluginbench-reactive-bg min-h-screen selection:bg-[rgba(0,191,255,0.25)]"
+    >
+      <div
+        className="pluginbench-reactive-bg-layer"
+        style={{
+          opacity: reactiveOverlayOpacity,
+          transform: `translate3d(0, ${reactiveOverlayShiftY}, 0)`
+        }}
+        aria-hidden="true"
+      />
+      <div className="pluginbench-reactive-bg-content">
+      <header className="pluginbench-reveal border-b border-[#333333] bg-[rgba(30,30,30,0.88)] backdrop-blur sticky top-0 z-50" style={{ '--pluginbench-reveal-delay': '0.00s' }}>
+        <div className="h-16 flex items-center justify-between" style={pageContainerStyle}>
           <div className="flex items-center gap-3 text-[#00bfff]">
-            <Activity className="w-6 h-6" />
-            <h1 className="text-xl font-black tracking-tight text-[#f0f0f0]">PluginBench <span className="text-base font-bold text-[#90e0ef]">(Beta)</span></h1>
+            {showHeaderLogo && (
+              <img
+                src="pluginbench_refinedaaaa.svg"
+                alt="PluginBench logo"
+                className="w-7 h-7 md:w-8 md:h-8 shrink-0"
+                style={{ opacity: 0.95, filter: 'drop-shadow(0 0 10px rgba(0, 191, 255, 0.24))' }}
+              />
+            )}
+            <h1 className="inline-flex items-baseline gap-1.5 text-xl font-black tracking-tight leading-none text-[#f0f0f0]">PluginBench <span className="text-base font-bold leading-none text-[#90e0ef]">(Beta)</span></h1>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-6">
-        <section className="bg-[#1e1e1e] border border-[#333333] rounded-2xl p-5 shadow-xl">
+      <main className="py-8 space-y-6" style={pageContainerStyle}>
+        <section className="pluginbench-reveal bg-[#1e1e1e] border border-[#333333] rounded-2xl p-5 shadow-xl" style={{ '--pluginbench-reveal-delay': '0.06s' }}>
           <div className="flex items-center gap-2 text-[#aaaaaa] mb-4 pb-4 border-b border-[#333333]">
-            <Settings2 className="w-4 h-4" />
+            <img src="gearshape.svg" alt="Settings" className="w-4 h-4" style={{ opacity: 0.85 }} />
             <h2 className="text-sm font-bold uppercase tracking-wider">Global Environment Settings</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
@@ -629,7 +635,7 @@ function App() {
                     return <optgroup key={gen} label={`M${gen} Series`}>{genMacs.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>;
                   })}
                 </select>
-                <Cpu className="w-4 h-4 text-[#aaaaaa] absolute left-3 pointer-events-none" />
+                  <img src="cpu.svg" alt="CPU" className="w-4 h-4 absolute left-3 pointer-events-none" style={{ opacity: 0.667 }} />
               </div>
             </div>
             <div className="space-y-2">
@@ -656,31 +662,26 @@ function App() {
             </div>
             <div className="space-y-2">
               <div className="flex justify-between"><label className="text-xs font-medium text-[#aaaaaa] uppercase tracking-wider block">CPU Ceiling</label><span className="text-xs font-bold text-[#00bfff]">{cpuBudget}%</span></div>
-              <input type="range" min="50" max="100" step="5" value={cpuBudget} onChange={(e) => setCpuBudget(parseFloat(e.target.value))} className="w-full h-2 bg-[#252525] rounded-lg appearance-none cursor-pointer accent-[#00bfff] mt-3" />
+              <div className="h-[42px] flex items-center">
+                <input type="range" min="50" max="100" step="5" value={cpuBudget} onChange={(e) => setCpuBudget(parseFloat(e.target.value))} className="w-full h-2 bg-[#252525] rounded-lg appearance-none cursor-pointer accent-[#00bfff]" />
+              </div>
             </div>
           </div>
           <div className="mt-6 pt-4 border-t border-[#333333] flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs text-[#aaaaaa]">
-              <Info className="w-4 h-4 text-[#00bfff] shrink-0" />
+              <img src="info.circle.svg" alt="Info" className="w-4 h-4 shrink-0" style={{ opacity: 0.85 }} />
               <p>Math calibrated using <strong>Geekbench 6</strong> averages from <strong>EveryMac</strong> for <strong className="text-[#f0f0f0]">{selectedMac.name} {selectedMac.formFactor}</strong>.</p>
             </div>
           </div>
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <section className="lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl flex flex-col overflow-hidden h-[600px] lg:h-[750px]">
-            <div className="p-4 border-b border-neutral-800 bg-neutral-900 shrink-0">
-              <div className="flex items-center gap-2 text-neutral-400 mb-4"><Search className="w-4 h-4" /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Library</h2></div>
-              {AI_FEATURE_ENABLED && <div className="mb-4 p-3 bg-cyan-950/30 border border-cyan-900/50 rounded-xl space-y-2">
-                <div className="flex items-center gap-2 text-cyan-400"><Sparkles className="w-4 h-4" /><span className="text-xs font-bold tracking-wider">AI ASSISTANT</span></div>
-                <div className="flex gap-2">
-                  <input type="text" placeholder="e.g. 'Warm vintage vocal chain'" value={chainPrompt} onChange={(e) => setChainPrompt(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleGenerateChain()} className="w-full bg-neutral-950 border border-cyan-900/50 text-white rounded-lg px-3 py-1.5 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all placeholder:text-neutral-600" />
-                  <button onClick={handleGenerateChain} disabled={isGenerating || !chainPrompt.trim()} className="shrink-0 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white rounded-lg px-3 transition-colors flex items-center justify-center min-w-[40px]">{isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}</button>
-                </div>
-              </div>}
+          <section className="pluginbench-reveal lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl flex flex-col overflow-hidden h-[600px] lg:h-[750px]" style={{ '--pluginbench-reveal-delay': '0.12s' }}>
+            <div className="px-4 pt-6 pb-4 border-b border-neutral-800 bg-neutral-900 shrink-0">
+              <div className="flex items-center gap-2 text-neutral-400 mb-4"><img src="waveform.badge.magnifyingglass.svg" alt="Search" className="w-6 h-6" style={{ opacity: 0.85 }} /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Library</h2></div>
               <div className="relative mb-3">
-                <input type="text" placeholder="Search plugins..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-neutral-950 border border-neutral-700 text-white rounded-lg pl-10 pr-4 py-2 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none" />
-                <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-2.5" />
+                <input type="text" placeholder="Search plugins..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-neutral-950 border border-neutral-700 text-white rounded-lg pl-9 pr-4 py-2 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none" />
+                <img src="magnifyingglass-small.svg" alt="Search" className="w-3 h-3 absolute left-3 top-1/2 -translate-y-1/2" style={{ opacity: 0.85 }} />
               </div>
               <div className="flex gap-2">
                 <button onClick={() => setSortBy('vendor')} className={`text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md transition-all ${sortBy === 'vendor' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'}`}>Vendor</button>
@@ -689,7 +690,7 @@ function App() {
               </div>
             </div>
             <div className="overflow-y-auto p-2 flex-1">
-              {searchQuery.trim() === '' ? <div className="h-full flex flex-col items-center justify-center text-neutral-500 py-10 px-6"><Search className="w-10 h-10 mb-4 opacity-20" /><p className="text-sm">Start typing to browse {pluginDatabase.length} plugins.</p></div> : 
+              {searchQuery.trim() === '' ? <div className="h-full flex flex-col items-center justify-center text-neutral-500 py-10 px-6"><img src="magnifyingglass-med.svg" alt="Search" className="w-10 h-10 mb-4 opacity-20" /><p className="text-sm">Start typing to browse {pluginDatabase.length} plugins.</p></div> : 
                filteredPlugins.map((plugin, idx, arr) => {
                  const showHeader = sortBy === 'vendor' && (idx === 0 || arr[idx-1].vendor !== plugin.vendor);
                  return <React.Fragment key={plugin.id}>{showHeader && <div className="px-3 pt-4 pb-1 text-xs font-bold text-neutral-500 uppercase tracking-widest sticky top-0 bg-neutral-900/90 backdrop-blur z-10">{plugin.vendor}</div>}
@@ -703,8 +704,8 @@ function App() {
             </div>
           </section>
 
-          <section className="lg:col-span-4 relative rounded-2xl flex flex-col overflow-hidden shadow-2xl h-[600px] lg:h-[750px] bg-neutral-900/40 backdrop-blur-2xl border border-white/10">
-            <div className="p-0 border-b border-white/10 bg-black/20 shrink-0 relative z-10">
+          <section className="pluginbench-reveal lg:col-span-4 relative rounded-2xl flex flex-col overflow-hidden shadow-2xl h-[600px] lg:h-[750px] bg-neutral-900/40 backdrop-blur-2xl border border-white/10" style={{ '--pluginbench-reveal-delay': '0.18s' }}>
+            <div className="pt-3 border-b border-white/10 bg-black/20 shrink-0 relative z-10">
               <div className="flex overflow-x-auto scrollbar-none border-b border-white/5">
                 {chains.map(chain => (
                   <button key={chain.id} onClick={() => setActiveChainId(chain.id)} className={`px-4 py-3 text-sm transition-all flex items-center gap-2 border-b-2 ${activeChainId === chain.id ? 'border-cyan-400 text-white bg-white/10' : 'border-transparent text-neutral-400 hover:bg-white/5'}`}>
@@ -722,7 +723,7 @@ function App() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {AI_FEATURE_ENABLED && activeChain.plugins.length > 0 && <button onClick={handleOptimizeChain} disabled={isOptimizing} className="text-xs font-bold text-amber-300 bg-amber-500/10 px-3 py-1.5 rounded flex-1 border border-amber-500/30 transition-all hover:bg-amber-500/20 active:scale-95 flex items-center justify-center gap-1">{isOptimizing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5" />} OPTIMIZE</button>}
+                  <button onClick={clearActiveChain} disabled={activeChain.plugins.length === 0} className="text-xs font-bold text-neutral-300 bg-neutral-800/70 px-3 py-1.5 rounded border border-white/10 transition-all hover:bg-neutral-700 disabled:opacity-40">CLEAR CHAIN</button>
                   <div className="flex items-center bg-black/30 border border-white/10 rounded-md px-2 py-1.5"><span className="text-[10px] font-bold text-neutral-500 uppercase mr-2">Chains:</span>
                     <select value={activeChain.instances} onChange={(e) => updateActiveChainInstances(parseInt(e.target.value))} className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer">
                       {Array.from({ length: 20 }, (_, i) => i + 1).map(n => <option key={n} value={n} className="bg-neutral-900">{n}</option>)}
@@ -733,22 +734,21 @@ function App() {
               </div>
             </div>
             <div className="overflow-y-auto p-4 flex-1 scrollbar-thin relative z-10">
-              {activeChain.plugins.length === 0 ? <div className="h-full flex flex-col items-center justify-center text-neutral-400 space-y-4 border-2 border-dashed border-white/10 rounded-xl bg-black/10 backdrop-blur-sm"><Layers className="w-10 h-10 opacity-20" /><p className="text-sm">Signal chain is empty.</p></div> : 
+              {activeChain.plugins.length === 0 ? <div className="h-full flex flex-col items-center justify-center text-neutral-400 space-y-4 border-2 border-dashed border-white/10 rounded-xl bg-black/10 backdrop-blur-sm"><img src="square.3.layers.3d.svg" alt="Layers" className="w-10 h-10 opacity-20" /><p className="text-sm">Signal chain is empty.</p></div> : 
                <div className="space-y-3">{activeChain.plugins.map((plugin, index) => {
-                 const cost = getPluginActualCost(plugin.weight, activeChain.format);
+                 const cost = getPluginActualCost(getPluginEffectiveWeight(plugin), activeChain.format);
                  return <div key={plugin.uniqueId} className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 flex items-center justify-between shadow-xl transition-all hover:bg-white/10">
                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-white/10 group-hover:bg-cyan-400 transition-colors" />
-                   <div className="flex flex-col min-w-0 pr-4 pl-2"><span className="text-[10px] text-neutral-400">#{index + 1} &middot; {plugin.vendor}</span><span className="text-sm font-bold text-white truncate">{plugin.name}</span>{AI_FEATURE_ENABLED && plugin.aiReason && <span className="text-[10px] text-cyan-300 mt-1 italic leading-tight">✨ {plugin.aiReason}</span>}</div>
+                   <div className="flex flex-col min-w-0 pr-4 pl-2"><span className="text-[10px] text-neutral-400">#{index + 1} &middot; {plugin.vendor}</span><span className="text-sm font-bold text-white truncate">{plugin.name}</span>{plugin.sections?.length > 0 && <div className="mt-2 flex flex-wrap gap-2">{plugin.sections.map(section => {const sectionEnabled = plugin.moduleStates?.[section.id] ?? (section.enabledByDefault !== false); return <label key={section.id} className="inline-flex items-center gap-1.5 text-[10px] text-neutral-400 bg-black/30 border border-white/10 rounded px-2 py-1 cursor-pointer hover:border-cyan-500/40"><input type="checkbox" checked={sectionEnabled} onChange={() => togglePluginSectionInActive(plugin.uniqueId, section.id)} className="h-3 w-3 accent-cyan-400 cursor-pointer" /><span>{section.label}</span></label>;})}</div>}</div>
                    <div className="flex items-center gap-4 shrink-0"><div className="text-right flex flex-col"><span className="text-[10px] font-mono text-neutral-500 uppercase">Weight</span><span className="text-sm font-mono text-cyan-300 font-bold">{cost.toFixed(1)}</span></div><button onClick={() => removePluginFromActive(plugin.uniqueId)} className="p-2 text-neutral-500 hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button></div>
                  </div>;
                })}</div>
               }
-              {AI_FEATURE_ENABLED && aiError && <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-200 text-xs flex gap-2"><AlertTriangle className="w-4 h-4 shrink-0" /><p>{aiError}</p></div>}
             </div>
           </section>
 
-          <section className="lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl p-6 flex flex-col shadow-xl h-[600px] lg:h-[750px]">
-            <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4 shrink-0"><Cpu className="w-4 h-4" /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Performance</h2></div>
+          <section className="pluginbench-reveal lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl p-6 flex flex-col shadow-xl h-[600px] lg:h-[750px]" style={{ '--pluginbench-reveal-delay': '0.24s' }}>
+            <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4 shrink-0"><img src="cpu.svg" alt="CPU" className="w-4 h-4" style={{ opacity: 0.85 }} /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Performance</h2></div>
             <div className="flex-1 space-y-8 overflow-y-auto pr-2">
               <div>
                 <div className="flex justify-between items-end mb-2"><div><h3 className="text-sm font-medium text-neutral-300">Session Total</h3><p className="text-[10px] text-neutral-500">Multi-core utilization across {chains.length} tracks.</p></div><span className={`text-xl font-mono font-bold ${willGlitchMulti ? 'text-red-400' : 'text-purple-400'}`}>{multiCorePercent.toFixed(1)}%</span></div>
@@ -769,7 +769,7 @@ function App() {
         </div>
 
         {sessionTotalCost > 0 && (
-          <section className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-2xl mt-6">
+          <section className="pluginbench-reveal bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-2xl mt-6" style={{ '--pluginbench-reveal-delay': '0.30s' }}>
             <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4"><HardDrive className="w-5 h-5" /><h2 className="text-base font-bold text-white tracking-wide">Hardware Comparison</h2></div>
             <div className="overflow-x-auto"><div className="min-w-[700px] space-y-1 py-2">{sortedMacModels.map(mac => {
               const perf = getMacPerformance(mac);
@@ -787,14 +787,20 @@ function App() {
         )}
       </main>
 
-      <footer className="border-t border-neutral-900 bg-neutral-950 mt-12 py-8 text-center text-[10px] text-neutral-600 uppercase tracking-widest">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="pluginbench-reveal border-t border-neutral-900 bg-transparent mt-12 py-8 text-[10px] text-neutral-600 uppercase tracking-widest" style={{ '--pluginbench-reveal-delay': '0.36s' }}>
+        <div className="flex flex-wrap items-start gap-4" style={pageContainerStyle}>
           <div>PluginBench &copy; 2026</div>
-          <div>
-            Data sourced from <a href="https://everymac.com/mac-benchmarks/index-mac-benchmarks.html" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:underline transition-colors">EveryMac Geekbench 6 charts</a> &bull; Made by <a href="https://twitter.com/TheLarkShark" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:underline transition-colors">Lark</a>
+          <div className="text-right ml-auto">
+            <div>
+              Data sourced from <a href="https://everymac.com/mac-benchmarks/index-mac-benchmarks.html" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:underline transition-colors">EveryMac Geekbench 6 charts</a> &bull; Made by <a href="https://twitter.com/TheLarkShark" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:underline transition-colors">Lark</a>
+            </div>
+            <div className="mt-1 text-[9px] text-neutral-600 normal-case tracking-normal">
+              (actually, he used Google Gemini and GitHub Copilot, but he had the idea so that's what counts)
+            </div>
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 }
