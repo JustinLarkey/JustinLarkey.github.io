@@ -206,7 +206,7 @@ function Box(props) { return <IconShell {...props}><path d="m3 7 9-4 9 4-9 4-9-4
 function Server(props) { return <IconShell {...props}><rect x="3" y="4" width="18" height="6" rx="2" /><rect x="3" y="14" width="18" height="6" rx="2" /><path d="M7 7h.01M7 17h.01M11 7h.01M11 17h.01" /></IconShell>; }
 
 const macModels = [
-  // --- NOTEBOOKS (EveryMac GB6 Averages) ---
+  // --- NOTEBOOKS (Fallback catalog if CSV is unavailable) ---
   { id: 'mba_m1_8', name: "M1 (8-core)", formFactor: "MacBook Air", single: 2335, multi: 8320, gen: 1 },
   { id: 'mba_m2_13', name: "M2 (8-core) 13\"", formFactor: "MacBook Air", single: 2560, multi: 9709, gen: 2 },
   { id: 'mba_m2_15', name: "M2 (8-core) 15\"", formFactor: "MacBook Air", single: 2598, multi: 9787, gen: 2 },
@@ -238,7 +238,7 @@ const macModels = [
   { id: 'mbp_m5p', name: "M5 Pro (18-core)", formFactor: "MacBook Pro", single: 4213, multi: 27915, gen: 5 },
   { id: 'mbp_m5m', name: "M5 Max (18-core)", formFactor: "MacBook Pro", single: 4307, multi: 28978, gen: 5 },
 
-  // --- DESKTOPS (EveryMac GB6 Averages) ---
+  // --- DESKTOPS (Fallback catalog if CSV is unavailable) ---
   { id: 'imac_m1', name: "M1 (8-core)", formFactor: "iMac", single: 2349, multi: 8374, gen: 1 },
   { id: 'imac_m3', name: "M3 (8-core)", formFactor: "iMac", single: 3055, multi: 11676, gen: 3 },
   { id: 'imac_m4_8', name: "M4 (8-core)", formFactor: "iMac", single: 3693, multi: 13638, gen: 4 },
@@ -266,297 +266,297 @@ const macModels = [
 
 const pluginDatabase = [
   // Logic Pro Stock
-  { id: 101, vendor: "Logic Pro", name: "Channel EQ", weight: 5, category: "EQ" },
-  { id: 102, vendor: "Logic Pro", name: "Vintage Console EQ", weight: 12, category: "EQ" },
-  { id: 103, vendor: "Logic Pro", name: "Vintage Tube EQ", weight: 15, category: "EQ" },
-  { id: 104, vendor: "Logic Pro", name: "Compressor", weight: 10, category: "Dynamics" },
-  { id: 105, vendor: "Logic Pro", name: "Multipressor", weight: 20, category: "Dynamics" },
-  { id: 106, vendor: "Logic Pro", name: "Space Designer", weight: 40, category: "Reverb" },
-  { id: 107, vendor: "Logic Pro", name: "ChromaVerb", weight: 35, category: "Reverb" },
-  { id: 108, vendor: "Logic Pro", name: "Delay Designer", weight: 15, category: "Delay" },
-  { id: 109, vendor: "Logic Pro", name: "Tape Delay", weight: 10, category: "Delay" },
-  { id: 110, vendor: "Logic Pro", name: "Alchemy", weight: 120, category: "Synth" },
-  { id: 111, vendor: "Logic Pro", name: "Retro Synth", weight: 45, category: "Synth" },
-  { id: 112, vendor: "Logic Pro", name: "Amp Designer", weight: 30, category: "Amp Sim" },
+  { id: 101, vendor: "Logic Pro", name: "Channel EQ", category: "EQ" },
+  { id: 102, vendor: "Logic Pro", name: "Vintage Console EQ", category: "EQ" },
+  { id: 103, vendor: "Logic Pro", name: "Vintage Tube EQ", category: "EQ" },
+  { id: 104, vendor: "Logic Pro", name: "Compressor", category: "Dynamics" },
+  { id: 105, vendor: "Logic Pro", name: "Multipressor", category: "Dynamics" },
+  { id: 106, vendor: "Logic Pro", name: "Space Designer", category: "Reverb" },
+  { id: 107, vendor: "Logic Pro", name: "ChromaVerb", category: "Reverb" },
+  { id: 108, vendor: "Logic Pro", name: "Delay Designer", category: "Delay" },
+  { id: 109, vendor: "Logic Pro", name: "Tape Delay", category: "Delay" },
+  { id: 110, vendor: "Logic Pro", name: "Alchemy", category: "Synth" },
+  { id: 111, vendor: "Logic Pro", name: "Retro Synth", category: "Synth" },
+  { id: 112, vendor: "Logic Pro", name: "Amp Designer", category: "Amp Sim" },
   
   // FabFilter
-  { id: 200, vendor: "FabFilter", name: "Pro-Q 4", weight: 12, category: "EQ" },
-  { id: 201, vendor: "FabFilter", name: "Pro-Q 3", weight: 10, category: "EQ" },
-  { id: 215, vendor: "FabFilter", name: "Pro-C 3", weight: 18, category: "Dynamics" },
-  { id: 202, vendor: "FabFilter", name: "Pro-C 2", weight: 15, category: "Dynamics" },
-  { id: 203, vendor: "FabFilter", name: "Pro-L 2 (4x OS)", weight: 60, category: "Dynamics" },
-  { id: 204, vendor: "FabFilter", name: "Pro-MB", weight: 50, category: "Dynamics" },
-  { id: 205, vendor: "FabFilter", name: "Saturn 2", weight: 35, category: "Saturation" },
-  { id: 206, vendor: "FabFilter", name: "Volcano 3", weight: 40, category: "EQ" },
-  { id: 207, vendor: "FabFilter", name: "Timeless 3", weight: 45, category: "Delay" },
-  { id: 208, vendor: "FabFilter", name: "Twin 3", weight: 80, category: "Synth" },
-  { id: 209, vendor: "FabFilter", name: "Pro-R 2", weight: 40, category: "Reverb" },
-  { id: 210, vendor: "FabFilter", name: "Pro-DS", weight: 20, category: "Dynamics" },
-  { id: 211, vendor: "FabFilter", name: "Pro-G", weight: 15, category: "Dynamics" },
-  { id: 212, vendor: "FabFilter", name: "One", weight: 25, category: "Synth" },
-  { id: 213, vendor: "FabFilter", name: "Simplon", weight: 15, category: "EQ" },
-  { id: 214, vendor: "FabFilter", name: "Micro", weight: 10, category: "EQ" },
+  { id: 200, vendor: "FabFilter", name: "Pro-Q 4", category: "EQ" },
+  { id: 201, vendor: "FabFilter", name: "Pro-Q 3", category: "EQ" },
+  { id: 215, vendor: "FabFilter", name: "Pro-C 3", category: "Dynamics" },
+  { id: 202, vendor: "FabFilter", name: "Pro-C 2", category: "Dynamics" },
+  { id: 203, vendor: "FabFilter", name: "Pro-L 2 (4x OS)", category: "Dynamics" },
+  { id: 204, vendor: "FabFilter", name: "Pro-MB", category: "Dynamics" },
+  { id: 205, vendor: "FabFilter", name: "Saturn 2", category: "Saturation" },
+  { id: 206, vendor: "FabFilter", name: "Volcano 3", category: "EQ" },
+  { id: 207, vendor: "FabFilter", name: "Timeless 3", category: "Delay" },
+  { id: 208, vendor: "FabFilter", name: "Twin 3", category: "Synth" },
+  { id: 209, vendor: "FabFilter", name: "Pro-R 2", category: "Reverb" },
+  { id: 210, vendor: "FabFilter", name: "Pro-DS", category: "Dynamics" },
+  { id: 211, vendor: "FabFilter", name: "Pro-G", category: "Dynamics" },
+  { id: 212, vendor: "FabFilter", name: "One", category: "Synth" },
+  { id: 213, vendor: "FabFilter", name: "Simplon", category: "EQ" },
+  { id: 214, vendor: "FabFilter", name: "Micro", category: "EQ" },
 
   // Universal Audio (UAD Native / Spark)
-  { id: 301, vendor: "UAD", name: "1176 Rev A", weight: 25, category: "Dynamics" },
-  { id: 3011, vendor: "UAD", name: "1176LN Rev E", weight: 25, category: "Dynamics" },
-  { id: 3012, vendor: "UAD", name: "1176AE", weight: 25, category: "Dynamics" },
-  { id: 302, vendor: "UAD", name: "Teletronix LA-2A Silver", weight: 20, category: "Dynamics" },
-  { id: 3021, vendor: "UAD", name: "Teletronix LA-2A Gray", weight: 20, category: "Dynamics" },
-  { id: 3022, vendor: "UAD", name: "Teletronix LA-2", weight: 20, category: "Dynamics" },
-  { id: 303, vendor: "UAD", name: "Pultec EQP-1A", weight: 30, category: "EQ" },
-  { id: 3031, vendor: "UAD", name: "Pultec MEQ-5", weight: 30, category: "EQ" },
-  { id: 3032, vendor: "UAD", name: "Pultec HLF-3C", weight: 15, category: "EQ" },
-  { id: 304, vendor: "UAD", name: "API Vision Channel Strip", weight: 55, category: "Channel Strip", sections: [
-    { id: 'api_preamp', label: 'Preamp', weight: 8, enabledByDefault: true },
-    { id: 'api_filter', label: 'Filter', weight: 5, enabledByDefault: true },
-    { id: 'api_eq', label: 'EQ', weight: 14, enabledByDefault: true },
-    { id: 'api_comp', label: 'Compressor', weight: 14, enabledByDefault: true },
-    { id: 'api_gate', label: 'Gate/Expander', weight: 8, enabledByDefault: true },
-    { id: 'api_output', label: 'Output', weight: 6, enabledByDefault: true }
+  { id: 301, vendor: "UAD", name: "1176 Rev A", category: "Dynamics" },
+  { id: 3011, vendor: "UAD", name: "1176LN Rev E", category: "Dynamics" },
+  { id: 3012, vendor: "UAD", name: "1176AE", category: "Dynamics" },
+  { id: 302, vendor: "UAD", name: "Teletronix LA-2A Silver", category: "Dynamics" },
+  { id: 3021, vendor: "UAD", name: "Teletronix LA-2A Gray", category: "Dynamics" },
+  { id: 3022, vendor: "UAD", name: "Teletronix LA-2", category: "Dynamics" },
+  { id: 303, vendor: "UAD", name: "Pultec EQP-1A", category: "EQ" },
+  { id: 3031, vendor: "UAD", name: "Pultec MEQ-5", category: "EQ" },
+  { id: 3032, vendor: "UAD", name: "Pultec HLF-3C", category: "EQ" },
+  { id: 304, vendor: "UAD", name: "API Vision Channel Strip", category: "Channel Strip", sections: [
+    { id: 'api_preamp', label: 'Preamp', enabledByDefault: true },
+    { id: 'api_filter', label: 'Filter', enabledByDefault: true },
+    { id: 'api_eq', label: 'EQ', enabledByDefault: true },
+    { id: 'api_comp', label: 'Compressor', enabledByDefault: true },
+    { id: 'api_gate', label: 'Gate/Expander', enabledByDefault: true },
+    { id: 'api_output', label: 'Output', enabledByDefault: true }
   ] },
-  { id: 305, vendor: "UAD", name: "API 2500 Bus Compressor", weight: 40, category: "Dynamics" },
-  { id: 306, vendor: "UAD", name: "Neve 1073 Preamp & EQ", weight: 45, category: "EQ" },
-  { id: 307, vendor: "UAD", name: "Studer A800 Tape", weight: 45, category: "Saturation" },
-  { id: 308, vendor: "UAD", name: "Lexicon 224 Digital Reverb", weight: 55, category: "Reverb" },
-  { id: 309, vendor: "UAD", name: "Capitol Chambers", weight: 90, category: "Reverb" },
-  { id: 310, vendor: "UAD", name: "Hitsville Reverb Chambers", weight: 85, category: "Reverb" },
-  { id: 311, vendor: "UAD", name: "Galaxy Tape Echo", weight: 35, category: "Delay" },
-  { id: 312, vendor: "UAD", name: "Avalon VT-737 Tube Channel", weight: 65, category: "Channel Strip" },
-  { id: 313, vendor: "UAD", name: "Distressor", weight: 35, category: "Dynamics" },
-  { id: 314, vendor: "UAD", name: "Opal Morphing Synthesizer", weight: 110, category: "Synth" },
-  { id: 315, vendor: "UAD", name: "Teletronix LA-3A", weight: 20, category: "Dynamics" },
-  { id: 316, vendor: "UAD", name: "Fairchild 670", weight: 45, category: "Dynamics" },
-  { id: 3161, vendor: "UAD", name: "Fairchild 660", weight: 40, category: "Dynamics" },
-  { id: 317, vendor: "UAD", name: "Brigade Chorus", weight: 25, category: "Delay" },
-  { id: 318, vendor: "UAD", name: "Century Tube Channel Strip", weight: 50, category: "Channel Strip", sections: [
-    { id: 'century_preamp', label: 'Preamp', weight: 10, enabledByDefault: true },
-    { id: 'century_eq', label: 'EQ', weight: 12, enabledByDefault: true },
-    { id: 'century_comp', label: 'Compressor', weight: 16, enabledByDefault: true },
-    { id: 'century_gate', label: 'Gate', weight: 6, enabledByDefault: true },
-    { id: 'century_output', label: 'Output', weight: 6, enabledByDefault: true }
+  { id: 305, vendor: "UAD", name: "API 2500 Bus Compressor", category: "Dynamics" },
+  { id: 306, vendor: "UAD", name: "Neve 1073 Preamp & EQ", category: "EQ" },
+  { id: 307, vendor: "UAD", name: "Studer A800 Tape", category: "Saturation" },
+  { id: 308, vendor: "UAD", name: "Lexicon 224 Digital Reverb", category: "Reverb" },
+  { id: 309, vendor: "UAD", name: "Capitol Chambers", category: "Reverb" },
+  { id: 310, vendor: "UAD", name: "Hitsville Reverb Chambers", category: "Reverb" },
+  { id: 311, vendor: "UAD", name: "Galaxy Tape Echo", category: "Delay" },
+  { id: 312, vendor: "UAD", name: "Avalon VT-737 Tube Channel", category: "Channel Strip" },
+  { id: 313, vendor: "UAD", name: "Distressor", category: "Dynamics" },
+  { id: 314, vendor: "UAD", name: "Opal Morphing Synthesizer", category: "Synth" },
+  { id: 315, vendor: "UAD", name: "Teletronix LA-3A", category: "Dynamics" },
+  { id: 316, vendor: "UAD", name: "Fairchild 670", category: "Dynamics" },
+  { id: 3161, vendor: "UAD", name: "Fairchild 660", category: "Dynamics" },
+  { id: 317, vendor: "UAD", name: "Brigade Chorus", category: "Delay" },
+  { id: 318, vendor: "UAD", name: "Century Tube Channel Strip", category: "Channel Strip", sections: [
+    { id: 'century_preamp', label: 'Preamp', enabledByDefault: true },
+    { id: 'century_eq', label: 'EQ', enabledByDefault: true },
+    { id: 'century_comp', label: 'Compressor', enabledByDefault: true },
+    { id: 'century_gate', label: 'Gate', enabledByDefault: true },
+    { id: 'century_output', label: 'Output', enabledByDefault: true }
   ] },
-  { id: 319, vendor: "UAD", name: "dbx 160 Compressor", weight: 20, category: "Dynamics" },
-  { id: 320, vendor: "UAD", name: "Electra 88 Vintage Keyboard Studio", weight: 95, category: "Synth" },
-  { id: 321, vendor: "UAD", name: "Hitsville EQ", weight: 35, category: "EQ" },
-  { id: 3211, vendor: "UAD", name: "Hitsville Mastering EQ", weight: 40, category: "EQ" },
-  { id: 322, vendor: "UAD", name: "Moog Minimoog", weight: 80, category: "Synth" },
-  { id: 323, vendor: "UAD", name: "PolyMAX Synth", weight: 70, category: "Synth" },
-  { id: 324, vendor: "UAD", name: "Pure Plate Reverb", weight: 40, category: "Reverb" },
-  { id: 325, vendor: "UAD", name: "Waterfall Rotary Speaker", weight: 50, category: "Saturation" },
-  { id: 326, vendor: "UAD", name: "Waterfall B3 Organ", weight: 85, category: "Synth" },
-  { id: 327, vendor: "UAD", name: "Sound City Studios", weight: 100, category: "Reverb" },
-  { id: 328, vendor: "UAD", name: "Ampex ATR-102", weight: 55, category: "Mastering" },
+  { id: 319, vendor: "UAD", name: "dbx 160 Compressor", category: "Dynamics" },
+  { id: 320, vendor: "UAD", name: "Electra 88 Vintage Keyboard Studio", category: "Synth" },
+  { id: 321, vendor: "UAD", name: "Hitsville EQ", category: "EQ" },
+  { id: 3211, vendor: "UAD", name: "Hitsville Mastering EQ", category: "EQ" },
+  { id: 322, vendor: "UAD", name: "Moog Minimoog", category: "Synth" },
+  { id: 323, vendor: "UAD", name: "PolyMAX Synth", category: "Synth" },
+  { id: 324, vendor: "UAD", name: "Pure Plate Reverb", category: "Reverb" },
+  { id: 325, vendor: "UAD", name: "Waterfall Rotary Speaker", category: "Saturation" },
+  { id: 326, vendor: "UAD", name: "Waterfall B3 Organ", category: "Synth" },
+  { id: 327, vendor: "UAD", name: "Sound City Studios", category: "Reverb" },
+  { id: 328, vendor: "UAD", name: "Ampex ATR-102", category: "Mastering" },
 
   // Waves
-  { id: 401, vendor: "Waves", name: "SSL E-Channel", weight: 25, category: "Channel Strip" },
-  { id: 402, vendor: "Waves", name: "SSL G-Channel", weight: 25, category: "Channel Strip" },
-  { id: 403, vendor: "Waves", name: "SSL G-Equalizer", weight: 15, category: "EQ" },
-  { id: 404, vendor: "Waves", name: "SSL G-Master Buss Compressor", weight: 20, category: "Dynamics" },
-  { id: 405, vendor: "Waves", name: "SSL EV2 Channel", weight: 30, category: "Channel Strip" },
-  { id: 406, vendor: "Waves", name: "CLA-2A", weight: 15, category: "Dynamics" },
-  { id: 407, vendor: "Waves", name: "CLA-3A", weight: 15, category: "Dynamics" },
-  { id: 408, vendor: "Waves", name: "CLA-76", weight: 15, category: "Dynamics" },
-  { id: 409, vendor: "Waves", name: "CLA Epic", weight: 55, category: "Reverb" },
-  { id: 410, vendor: "Waves", name: "CLA MixHub", weight: 40, category: "Channel Strip" },
-  { id: 411, vendor: "Waves", name: "CLA Vocals", weight: 25, category: "Channel Strip" },
-  { id: 412, vendor: "Waves", name: "CLA Guitars", weight: 25, category: "Channel Strip" },
-  { id: 413, vendor: "Waves", name: "CLA Bass", weight: 25, category: "Channel Strip" },
-  { id: 414, vendor: "Waves", name: "CLA Drums", weight: 25, category: "Channel Strip" },
-  { id: 415, vendor: "Waves", name: "CLA Unplugged", weight: 25, category: "Channel Strip" },
-  { id: 416, vendor: "Waves", name: "CLA Effects", weight: 30, category: "Delay" },
-  { id: 417, vendor: "Waves", name: "CLA MixDown", weight: 30, category: "Mastering" },
-  { id: 418, vendor: "Waves", name: "Renaissance Vox (R-Vox)", weight: 10, category: "Dynamics" },
-  { id: 419, vendor: "Waves", name: "Renaissance Bass (R-Bass)", weight: 15, category: "Saturation" },
-  { id: 420, vendor: "Waves", name: "Renaissance Axx (R-Axx)", weight: 10, category: "Dynamics" },
-  { id: 421, vendor: "Waves", name: "Renaissance Compressor (R-Comp)", weight: 10, category: "Dynamics" },
-  { id: 422, vendor: "Waves", name: "Renaissance Equalizer (R-EQ)", weight: 10, category: "EQ" },
-  { id: 423, vendor: "Waves", name: "Renaissance DeEsser", weight: 12, category: "Dynamics" },
-  { id: 424, vendor: "Waves", name: "Renaissance Reverb (R-Verb)", weight: 20, category: "Reverb" },
-  { id: 425, vendor: "Waves", name: "Renaissance Channel", weight: 25, category: "Channel Strip" },
-  { id: 426, vendor: "Waves", name: "L1 Ultramaximizer", weight: 15, category: "Dynamics" },
-  { id: 427, vendor: "Waves", name: "L2 Ultramaximizer", weight: 20, category: "Dynamics" },
-  { id: 428, vendor: "Waves", name: "L3 Ultramaximizer", weight: 30, category: "Mastering" },
-  { id: 429, vendor: "Waves", name: "L3 Multimaximizer", weight: 40, category: "Mastering" },
-  { id: 430, vendor: "Waves", name: "L3-LL Ultramaximizer", weight: 25, category: "Mastering" },
-  { id: 431, vendor: "Waves", name: "L3-LL Multimaximizer", weight: 35, category: "Mastering" },
-  { id: 432, vendor: "Waves", name: "L3-16 Multimaximizer", weight: 50, category: "Mastering" },
-  { id: 433, vendor: "Waves", name: "Abbey Road TG Mastering Chain", weight: 130, category: "Mastering" },
-  { id: 434, vendor: "Waves", name: "Abbey Road Chambers", weight: 70, category: "Reverb" },
-  { id: 435, vendor: "Waves", name: "Abbey Road Reverb Plates", weight: 65, category: "Reverb" },
-  { id: 436, vendor: "Waves", name: "Abbey Road RS124 Compressor", weight: 35, category: "Dynamics" },
-  { id: 437, vendor: "Waves", name: "Abbey Road Saturator", weight: 40, category: "Saturation" },
-  { id: 438, vendor: "Waves", name: "Abbey Road Vinyl", weight: 45, category: "Saturation" },
-  { id: 439, vendor: "Waves", name: "EMI TG12345 Channel", weight: 35, category: "Channel Strip" },
-  { id: 440, vendor: "Waves", name: "J37 Tape", weight: 45, category: "Saturation" },
-  { id: 441, vendor: "Waves", name: "Reel ADT", weight: 35, category: "Delay" },
-  { id: 442, vendor: "Waves", name: "REDD", weight: 30, category: "EQ" },
-  { id: 443, vendor: "Waves", name: "RS56 Passive EQ", weight: 25, category: "EQ" },
-  { id: 444, vendor: "Waves", name: "H-Comp", weight: 20, category: "Dynamics" },
-  { id: 445, vendor: "Waves", name: "H-Delay", weight: 20, category: "Delay" },
-  { id: 446, vendor: "Waves", name: "H-EQ", weight: 25, category: "EQ" },
-  { id: 447, vendor: "Waves", name: "H-Reverb", weight: 65, category: "Reverb" },
-  { id: 448, vendor: "Waves", name: "V-Comp", weight: 25, category: "Dynamics" },
-  { id: 449, vendor: "Waves", name: "V-EQ3", weight: 20, category: "EQ" },
-  { id: 450, vendor: "Waves", name: "V-EQ4", weight: 20, category: "EQ" },
-  { id: 451, vendor: "Waves", name: "API 2500", weight: 25, category: "Dynamics" },
-  { id: 452, vendor: "Waves", name: "API 550A", weight: 20, category: "EQ" },
-  { id: 453, vendor: "Waves", name: "API 550B", weight: 20, category: "EQ" },
-  { id: 454, vendor: "Waves", name: "API 560", weight: 20, category: "EQ" },
-  { id: 455, vendor: "Waves", name: "C1 Compressor", weight: 10, category: "Dynamics" },
-  { id: 456, vendor: "Waves", name: "C4 Multiband Parametric", weight: 25, category: "Dynamics" },
-  { id: 457, vendor: "Waves", name: "C6 Multiband Compressor", weight: 30, category: "Dynamics" },
-  { id: 458, vendor: "Waves", name: "F6 Floating-Band Dynamic EQ", weight: 35, category: "EQ" },
-  { id: 459, vendor: "Waves", name: "Vocal Rider", weight: 30, category: "Dynamics" },
-  { id: 460, vendor: "Waves", name: "Bass Rider", weight: 30, category: "Dynamics" },
-  { id: 461, vendor: "Waves", name: "Sibilance", weight: 25, category: "Dynamics" },
-  { id: 462, vendor: "Waves", name: "DeEsser", weight: 10, category: "Dynamics" },
-  { id: 463, vendor: "Waves", name: "Waves Tune", weight: 20, category: "Pitch" },
-  { id: 464, vendor: "Waves", name: "Waves Tune Real-Time", weight: 35, category: "Pitch" },
-  { id: 465, vendor: "Waves", name: "Vocal Bender", weight: 25, category: "Pitch" },
-  { id: 466, vendor: "Waves", name: "Silk Vocal", weight: 35, category: "Channel Strip" },
-  { id: 467, vendor: "Waves", name: "Clarity Vx", weight: 80, category: "Restoration" },
-  { id: 468, vendor: "Waves", name: "Clarity Vx Pro", weight: 120, category: "Restoration" },
-  { id: 469, vendor: "Waves", name: "Clarity Vx DeReverb", weight: 80, category: "Restoration" },
-  { id: 470, vendor: "Waves", name: "Scheps Omni Channel", weight: 35, category: "Channel Strip" },
-  { id: 471, vendor: "Waves", name: "Scheps 73", weight: 30, category: "EQ" },
-  { id: 472, vendor: "Waves", name: "Scheps Parallel Particles", weight: 35, category: "Saturation" },
-  { id: 473, vendor: "Waves", name: "JJP Vocals", weight: 25, category: "Channel Strip" },
-  { id: 474, vendor: "Waves", name: "JJP Bass", weight: 25, category: "Channel Strip" },
-  { id: 475, vendor: "Waves", name: "JJP Drums", weight: 25, category: "Channel Strip" },
-  { id: 476, vendor: "Waves", name: "JJP Guitars", weight: 25, category: "Channel Strip" },
-  { id: 477, vendor: "Waves", name: "JJP Strings & Keys", weight: 25, category: "Channel Strip" },
-  { id: 478, vendor: "Waves", name: "JJP Cymbals & Percussion", weight: 25, category: "Channel Strip" },
-  { id: 479, vendor: "Waves", name: "Eddie Kramer Vocal Channel", weight: 25, category: "Channel Strip" },
-  { id: 480, vendor: "Waves", name: "Eddie Kramer Bass Channel", weight: 25, category: "Channel Strip" },
-  { id: 481, vendor: "Waves", name: "Eddie Kramer Drum Channel", weight: 25, category: "Channel Strip" },
-  { id: 482, vendor: "Waves", name: "Eddie Kramer Guitar Channel", weight: 25, category: "Channel Strip" },
-  { id: 483, vendor: "Waves", name: "Eddie Kramer Effects Channel", weight: 30, category: "Delay" },
-  { id: 484, vendor: "Waves", name: "Kramer Master Tape", weight: 40, category: "Saturation" },
-  { id: 485, vendor: "Waves", name: "Kramer PIE Compressor", weight: 25, category: "Dynamics" },
-  { id: 486, vendor: "Waves", name: "Kramer HLS Channel", weight: 25, category: "EQ" },
-  { id: 487, vendor: "Waves", name: "Manny Marroquin EQ", weight: 25, category: "EQ" },
-  { id: 488, vendor: "Waves", name: "Manny Marroquin Reverb", weight: 40, category: "Reverb" },
-  { id: 489, vendor: "Waves", name: "Manny Marroquin Delay", weight: 35, category: "Delay" },
-  { id: 490, vendor: "Waves", name: "Manny Marroquin Distortion", weight: 30, category: "Saturation" },
-  { id: 491, vendor: "Waves", name: "Manny Marroquin Triple D", weight: 30, category: "Dynamics" },
-  { id: 492, vendor: "Waves", name: "Manny Marroquin Tone Shaper", weight: 35, category: "Mastering" },
-  { id: 493, vendor: "Waves", name: "Greg Wells VoiceCentric", weight: 35, category: "Channel Strip" },
-  { id: 494, vendor: "Waves", name: "Greg Wells MixCentric", weight: 35, category: "Mastering" },
-  { id: 495, vendor: "Waves", name: "Greg Wells PianoCentric", weight: 35, category: "Channel Strip" },
-  { id: 496, vendor: "Waves", name: "Greg Wells ToneCentric", weight: 35, category: "Saturation" },
-  { id: 497, vendor: "Waves", name: "PuigChild Compressor", weight: 25, category: "Dynamics" },
-  { id: 498, vendor: "Waves", name: "PuigTec EQs", weight: 20, category: "EQ" },
-  { id: 499, vendor: "Waves", name: "Magma Tube Channel Strip", weight: 40, category: "Channel Strip" },
-  { id: 500, vendor: "Waves", name: "Magma Springs", weight: 45, category: "Reverb" },
-  { id: 501, vendor: "Waves", name: "BB Tubes", weight: 30, category: "Saturation" },
-  { id: 502, vendor: "Waves", name: "MDMX Overdrive", weight: 25, category: "Saturation" },
-  { id: 503, vendor: "Waves", name: "Berzerk Distortion", weight: 25, category: "Saturation" },
-  { id: 504, vendor: "Waves", name: "Aphex Vintage Aural Exciter", weight: 20, category: "Saturation" },
-  { id: 505, vendor: "Waves", name: "Cobalt Saphira", weight: 25, category: "Saturation" },
-  { id: 506, vendor: "Waves", name: "Vitamin Sonic Enhancer", weight: 35, category: "Mastering" },
-  { id: 507, vendor: "Waves", name: "InPhase", weight: 20, category: "Mastering" },
-  { id: 508, vendor: "Waves", name: "Center", weight: 15, category: "Mastering" },
-  { id: 509, vendor: "Waves", name: "S1 Stereo Imager", weight: 15, category: "Mastering" },
-  { id: 510, vendor: "Waves", name: "PAZ Analyzer", weight: 15, category: "Mastering" },
-  { id: 511, vendor: "Waves", name: "WLM Plus Loudness Meter", weight: 20, category: "Mastering" },
-  { id: 512, vendor: "Waves", name: "Abbey Road Studio 3", weight: 80, category: "Mastering" },
-  { id: 513, vendor: "Waves", name: "Nx Ocean Way Nashville", weight: 80, category: "Mastering" },
-  { id: 514, vendor: "Waves", name: "Nx Germano Studios New York", weight: 80, category: "Mastering" },
-  { id: 515, vendor: "Waves", name: "CLA Nx", weight: 80, category: "Mastering" },
-  { id: 516, vendor: "Waves", name: "Nx Virtual Mix Room", weight: 75, category: "Mastering" },
-  { id: 517, vendor: "Waves", name: "MaxxBass", weight: 15, category: "Saturation" },
-  { id: 518, vendor: "Waves", name: "Submarine", weight: 25, category: "Saturation" },
-  { id: 519, vendor: "Waves", name: "LoAir", weight: 15, category: "Saturation" },
-  { id: 520, vendor: "Waves", name: "MV2", weight: 15, category: "Dynamics" },
-  { id: 521, vendor: "Waves", name: "MaxxVolume", weight: 20, category: "Dynamics" },
-  { id: 522, vendor: "Waves", name: "Smack Attack", weight: 20, category: "Dynamics" },
-  { id: 523, vendor: "Waves", name: "Torque", weight: 25, category: "Pitch" },
-  { id: 524, vendor: "Waves", name: "Doubler", weight: 20, category: "Delay" },
-  { id: 525, vendor: "Waves", name: "SuperTap", weight: 20, category: "Delay" },
-  { id: 526, vendor: "Waves", name: "Enigma", weight: 25, category: "Delay" },
-  { id: 527, vendor: "Waves", name: "MetaFlanger", weight: 20, category: "Delay" },
-  { id: 528, vendor: "Waves", name: "MondoMod", weight: 20, category: "Delay" },
-  { id: 529, vendor: "Waves", name: "Brauer Motion", weight: 35, category: "Delay" },
-  { id: 530, vendor: "Waves", name: "TrueVerb", weight: 25, category: "Reverb" },
-  { id: 531, vendor: "Waves", name: "IR1 Convolution Reverb", weight: 50, category: "Reverb" },
-  { id: 532, vendor: "Waves", name: "Q10 Equalizer", weight: 10, category: "EQ" },
-  { id: 533, vendor: "Waves", name: "Linear Phase EQ", weight: 30, category: "EQ" },
-  { id: 534, vendor: "Waves", name: "Linear Phase Multiband Compressor", weight: 35, category: "Dynamics" },
-  { id: 535, vendor: "Waves", name: "X-Noise", weight: 30, category: "Restoration" },
-  { id: 536, vendor: "Waves", name: "Z-Noise", weight: 35, category: "Restoration" },
-  { id: 537, vendor: "Waves", name: "WNS Noise Suppressor", weight: 45, category: "Restoration" },
-  { id: 538, vendor: "Waves", name: "Infected Mushroom Pusher", weight: 40, category: "Mastering" },
-  { id: 539, vendor: "Waves", name: "OVox Vocal ReSynthesis", weight: 60, category: "Synth" },
-  { id: 540, vendor: "Waves", name: "Element 2.0", weight: 45, category: "Synth" },
-  { id: 541, vendor: "Waves", name: "Codex Wavetable Synth", weight: 50, category: "Synth" },
-  { id: 542, vendor: "Waves", name: "Flow Motion FM Synth", weight: 55, category: "Synth" },
+  { id: 401, vendor: "Waves", name: "SSL E-Channel", category: "Channel Strip" },
+  { id: 402, vendor: "Waves", name: "SSL G-Channel", category: "Channel Strip" },
+  { id: 403, vendor: "Waves", name: "SSL G-Equalizer", category: "EQ" },
+  { id: 404, vendor: "Waves", name: "SSL G-Master Buss Compressor", category: "Dynamics" },
+  { id: 405, vendor: "Waves", name: "SSL EV2 Channel", category: "Channel Strip" },
+  { id: 406, vendor: "Waves", name: "CLA-2A", category: "Dynamics" },
+  { id: 407, vendor: "Waves", name: "CLA-3A", category: "Dynamics" },
+  { id: 408, vendor: "Waves", name: "CLA-76", category: "Dynamics" },
+  { id: 409, vendor: "Waves", name: "CLA Epic", category: "Reverb" },
+  { id: 410, vendor: "Waves", name: "CLA MixHub", category: "Channel Strip" },
+  { id: 411, vendor: "Waves", name: "CLA Vocals", category: "Channel Strip" },
+  { id: 412, vendor: "Waves", name: "CLA Guitars", category: "Channel Strip" },
+  { id: 413, vendor: "Waves", name: "CLA Bass", category: "Channel Strip" },
+  { id: 414, vendor: "Waves", name: "CLA Drums", category: "Channel Strip" },
+  { id: 415, vendor: "Waves", name: "CLA Unplugged", category: "Channel Strip" },
+  { id: 416, vendor: "Waves", name: "CLA Effects", category: "Delay" },
+  { id: 417, vendor: "Waves", name: "CLA MixDown", category: "Mastering" },
+  { id: 418, vendor: "Waves", name: "Renaissance Vox (R-Vox)", category: "Dynamics" },
+  { id: 419, vendor: "Waves", name: "Renaissance Bass (R-Bass)", category: "Saturation" },
+  { id: 420, vendor: "Waves", name: "Renaissance Axx (R-Axx)", category: "Dynamics" },
+  { id: 421, vendor: "Waves", name: "Renaissance Compressor (R-Comp)", category: "Dynamics" },
+  { id: 422, vendor: "Waves", name: "Renaissance Equalizer (R-EQ)", category: "EQ" },
+  { id: 423, vendor: "Waves", name: "Renaissance DeEsser", category: "Dynamics" },
+  { id: 424, vendor: "Waves", name: "Renaissance Reverb (R-Verb)", category: "Reverb" },
+  { id: 425, vendor: "Waves", name: "Renaissance Channel", category: "Channel Strip" },
+  { id: 426, vendor: "Waves", name: "L1 Ultramaximizer", category: "Dynamics" },
+  { id: 427, vendor: "Waves", name: "L2 Ultramaximizer", category: "Dynamics" },
+  { id: 428, vendor: "Waves", name: "L3 Ultramaximizer", category: "Mastering" },
+  { id: 429, vendor: "Waves", name: "L3 Multimaximizer", category: "Mastering" },
+  { id: 430, vendor: "Waves", name: "L3-LL Ultramaximizer", category: "Mastering" },
+  { id: 431, vendor: "Waves", name: "L3-LL Multimaximizer", category: "Mastering" },
+  { id: 432, vendor: "Waves", name: "L3-16 Multimaximizer", category: "Mastering" },
+  { id: 433, vendor: "Waves", name: "Abbey Road TG Mastering Chain", category: "Mastering" },
+  { id: 434, vendor: "Waves", name: "Abbey Road Chambers", category: "Reverb" },
+  { id: 435, vendor: "Waves", name: "Abbey Road Reverb Plates", category: "Reverb" },
+  { id: 436, vendor: "Waves", name: "Abbey Road RS124 Compressor", category: "Dynamics" },
+  { id: 437, vendor: "Waves", name: "Abbey Road Saturator", category: "Saturation" },
+  { id: 438, vendor: "Waves", name: "Abbey Road Vinyl", category: "Saturation" },
+  { id: 439, vendor: "Waves", name: "EMI TG12345 Channel", category: "Channel Strip" },
+  { id: 440, vendor: "Waves", name: "J37 Tape", category: "Saturation" },
+  { id: 441, vendor: "Waves", name: "Reel ADT", category: "Delay" },
+  { id: 442, vendor: "Waves", name: "REDD", category: "EQ" },
+  { id: 443, vendor: "Waves", name: "RS56 Passive EQ", category: "EQ" },
+  { id: 444, vendor: "Waves", name: "H-Comp", category: "Dynamics" },
+  { id: 445, vendor: "Waves", name: "H-Delay", category: "Delay" },
+  { id: 446, vendor: "Waves", name: "H-EQ", category: "EQ" },
+  { id: 447, vendor: "Waves", name: "H-Reverb", category: "Reverb" },
+  { id: 448, vendor: "Waves", name: "V-Comp", category: "Dynamics" },
+  { id: 449, vendor: "Waves", name: "V-EQ3", category: "EQ" },
+  { id: 450, vendor: "Waves", name: "V-EQ4", category: "EQ" },
+  { id: 451, vendor: "Waves", name: "API 2500", category: "Dynamics" },
+  { id: 452, vendor: "Waves", name: "API 550A", category: "EQ" },
+  { id: 453, vendor: "Waves", name: "API 550B", category: "EQ" },
+  { id: 454, vendor: "Waves", name: "API 560", category: "EQ" },
+  { id: 455, vendor: "Waves", name: "C1 Compressor", category: "Dynamics" },
+  { id: 456, vendor: "Waves", name: "C4 Multiband Parametric", category: "Dynamics" },
+  { id: 457, vendor: "Waves", name: "C6 Multiband Compressor", category: "Dynamics" },
+  { id: 458, vendor: "Waves", name: "F6 Floating-Band Dynamic EQ", category: "EQ" },
+  { id: 459, vendor: "Waves", name: "Vocal Rider", category: "Dynamics" },
+  { id: 460, vendor: "Waves", name: "Bass Rider", category: "Dynamics" },
+  { id: 461, vendor: "Waves", name: "Sibilance", category: "Dynamics" },
+  { id: 462, vendor: "Waves", name: "DeEsser", category: "Dynamics" },
+  { id: 463, vendor: "Waves", name: "Waves Tune", category: "Pitch" },
+  { id: 464, vendor: "Waves", name: "Waves Tune Real-Time", category: "Pitch" },
+  { id: 465, vendor: "Waves", name: "Vocal Bender", category: "Pitch" },
+  { id: 466, vendor: "Waves", name: "Silk Vocal", category: "Channel Strip" },
+  { id: 467, vendor: "Waves", name: "Clarity Vx", category: "Restoration" },
+  { id: 468, vendor: "Waves", name: "Clarity Vx Pro", category: "Restoration" },
+  { id: 469, vendor: "Waves", name: "Clarity Vx DeReverb", category: "Restoration" },
+  { id: 470, vendor: "Waves", name: "Scheps Omni Channel", category: "Channel Strip" },
+  { id: 471, vendor: "Waves", name: "Scheps 73", category: "EQ" },
+  { id: 472, vendor: "Waves", name: "Scheps Parallel Particles", category: "Saturation" },
+  { id: 473, vendor: "Waves", name: "JJP Vocals", category: "Channel Strip" },
+  { id: 474, vendor: "Waves", name: "JJP Bass", category: "Channel Strip" },
+  { id: 475, vendor: "Waves", name: "JJP Drums", category: "Channel Strip" },
+  { id: 476, vendor: "Waves", name: "JJP Guitars", category: "Channel Strip" },
+  { id: 477, vendor: "Waves", name: "JJP Strings & Keys", category: "Channel Strip" },
+  { id: 478, vendor: "Waves", name: "JJP Cymbals & Percussion", category: "Channel Strip" },
+  { id: 479, vendor: "Waves", name: "Eddie Kramer Vocal Channel", category: "Channel Strip" },
+  { id: 480, vendor: "Waves", name: "Eddie Kramer Bass Channel", category: "Channel Strip" },
+  { id: 481, vendor: "Waves", name: "Eddie Kramer Drum Channel", category: "Channel Strip" },
+  { id: 482, vendor: "Waves", name: "Eddie Kramer Guitar Channel", category: "Channel Strip" },
+  { id: 483, vendor: "Waves", name: "Eddie Kramer Effects Channel", category: "Delay" },
+  { id: 484, vendor: "Waves", name: "Kramer Master Tape", category: "Saturation" },
+  { id: 485, vendor: "Waves", name: "Kramer PIE Compressor", category: "Dynamics" },
+  { id: 486, vendor: "Waves", name: "Kramer HLS Channel", category: "EQ" },
+  { id: 487, vendor: "Waves", name: "Manny Marroquin EQ", category: "EQ" },
+  { id: 488, vendor: "Waves", name: "Manny Marroquin Reverb", category: "Reverb" },
+  { id: 489, vendor: "Waves", name: "Manny Marroquin Delay", category: "Delay" },
+  { id: 490, vendor: "Waves", name: "Manny Marroquin Distortion", category: "Saturation" },
+  { id: 491, vendor: "Waves", name: "Manny Marroquin Triple D", category: "Dynamics" },
+  { id: 492, vendor: "Waves", name: "Manny Marroquin Tone Shaper", category: "Mastering" },
+  { id: 493, vendor: "Waves", name: "Greg Wells VoiceCentric", category: "Channel Strip" },
+  { id: 494, vendor: "Waves", name: "Greg Wells MixCentric", category: "Mastering" },
+  { id: 495, vendor: "Waves", name: "Greg Wells PianoCentric", category: "Channel Strip" },
+  { id: 496, vendor: "Waves", name: "Greg Wells ToneCentric", category: "Saturation" },
+  { id: 497, vendor: "Waves", name: "PuigChild Compressor", category: "Dynamics" },
+  { id: 498, vendor: "Waves", name: "PuigTec EQs", category: "EQ" },
+  { id: 499, vendor: "Waves", name: "Magma Tube Channel Strip", category: "Channel Strip" },
+  { id: 500, vendor: "Waves", name: "Magma Springs", category: "Reverb" },
+  { id: 501, vendor: "Waves", name: "BB Tubes", category: "Saturation" },
+  { id: 502, vendor: "Waves", name: "MDMX Overdrive", category: "Saturation" },
+  { id: 503, vendor: "Waves", name: "Berzerk Distortion", category: "Saturation" },
+  { id: 504, vendor: "Waves", name: "Aphex Vintage Aural Exciter", category: "Saturation" },
+  { id: 505, vendor: "Waves", name: "Cobalt Saphira", category: "Saturation" },
+  { id: 506, vendor: "Waves", name: "Vitamin Sonic Enhancer", category: "Mastering" },
+  { id: 507, vendor: "Waves", name: "InPhase", category: "Mastering" },
+  { id: 508, vendor: "Waves", name: "Center", category: "Mastering" },
+  { id: 509, vendor: "Waves", name: "S1 Stereo Imager", category: "Mastering" },
+  { id: 510, vendor: "Waves", name: "PAZ Analyzer", category: "Mastering" },
+  { id: 511, vendor: "Waves", name: "WLM Plus Loudness Meter", category: "Mastering" },
+  { id: 512, vendor: "Waves", name: "Abbey Road Studio 3", category: "Mastering" },
+  { id: 513, vendor: "Waves", name: "Nx Ocean Way Nashville", category: "Mastering" },
+  { id: 514, vendor: "Waves", name: "Nx Germano Studios New York", category: "Mastering" },
+  { id: 515, vendor: "Waves", name: "CLA Nx", category: "Mastering" },
+  { id: 516, vendor: "Waves", name: "Nx Virtual Mix Room", category: "Mastering" },
+  { id: 517, vendor: "Waves", name: "MaxxBass", category: "Saturation" },
+  { id: 518, vendor: "Waves", name: "Submarine", category: "Saturation" },
+  { id: 519, vendor: "Waves", name: "LoAir", category: "Saturation" },
+  { id: 520, vendor: "Waves", name: "MV2", category: "Dynamics" },
+  { id: 521, vendor: "Waves", name: "MaxxVolume", category: "Dynamics" },
+  { id: 522, vendor: "Waves", name: "Smack Attack", category: "Dynamics" },
+  { id: 523, vendor: "Waves", name: "Torque", category: "Pitch" },
+  { id: 524, vendor: "Waves", name: "Doubler", category: "Delay" },
+  { id: 525, vendor: "Waves", name: "SuperTap", category: "Delay" },
+  { id: 526, vendor: "Waves", name: "Enigma", category: "Delay" },
+  { id: 527, vendor: "Waves", name: "MetaFlanger", category: "Delay" },
+  { id: 528, vendor: "Waves", name: "MondoMod", category: "Delay" },
+  { id: 529, vendor: "Waves", name: "Brauer Motion", category: "Delay" },
+  { id: 530, vendor: "Waves", name: "TrueVerb", category: "Reverb" },
+  { id: 531, vendor: "Waves", name: "IR1 Convolution Reverb", category: "Reverb" },
+  { id: 532, vendor: "Waves", name: "Q10 Equalizer", category: "EQ" },
+  { id: 533, vendor: "Waves", name: "Linear Phase EQ", category: "EQ" },
+  { id: 534, vendor: "Waves", name: "Linear Phase Multiband Compressor", category: "Dynamics" },
+  { id: 535, vendor: "Waves", name: "X-Noise", category: "Restoration" },
+  { id: 536, vendor: "Waves", name: "Z-Noise", category: "Restoration" },
+  { id: 537, vendor: "Waves", name: "WNS Noise Suppressor", category: "Restoration" },
+  { id: 538, vendor: "Waves", name: "Infected Mushroom Pusher", category: "Mastering" },
+  { id: 539, vendor: "Waves", name: "OVox Vocal ReSynthesis", category: "Synth" },
+  { id: 540, vendor: "Waves", name: "Element 2.0", category: "Synth" },
+  { id: 541, vendor: "Waves", name: "Codex Wavetable Synth", category: "Synth" },
+  { id: 542, vendor: "Waves", name: "Flow Motion FM Synth", category: "Synth" },
 
   // Slate Digital
-  { id: 601, vendor: "Slate Digital", name: "Virtual Mix Rack (Empty)", weight: 10, category: "Channel Strip" },
-  { id: 602, vendor: "Slate Digital", name: "VMR (Typical 4-Module)", weight: 45, category: "Channel Strip" },
-  { id: 603, vendor: "Slate Digital", name: "Virtual Tape Machines (VTM)", weight: 35, category: "Saturation" },
-  { id: 604, vendor: "Slate Digital", name: "Virtual Buss Compressors (VBC)", weight: 40, category: "Dynamics" },
-  { id: 605, vendor: "Slate Digital", name: "Infinity EQ", weight: 15, category: "EQ" },
-  { id: 606, vendor: "Slate Digital", name: "FG-X 2 Mastering Console", weight: 80, category: "Mastering" },
-  { id: 607, vendor: "Slate Digital", name: "Fresh Air", weight: 15, category: "EQ" },
-  { id: 608, vendor: "Slate Digital", name: "VerbSuite Classics", weight: 60, category: "Reverb" },
-  { id: 609, vendor: "Slate Digital", name: "Repeater Delay", weight: 35, category: "Delay" },
-  { id: 610, vendor: "Slate Digital", name: "Murda Melodies", weight: 55, category: "Pitch" },
-  { id: 611, vendor: "Slate Digital", name: "Metatune", weight: 45, category: "Pitch" },
-  { id: 612, vendor: "Slate Digital", name: "FG-Bomber", weight: 30, category: "Dynamics" },
-  { id: 613, vendor: "Slate Digital", name: "Custom Opto", weight: 25, category: "Dynamics" },
-  { id: 614, vendor: "Slate Digital", name: "FG-Stress", weight: 35, category: "Dynamics" },
-  { id: 615, vendor: "Slate Digital", name: "FG-A", weight: 20, category: "EQ" },
-  { id: 616, vendor: "Slate Digital", name: "FG-S", weight: 20, category: "EQ" },
-  { id: 617, vendor: "Slate Digital", name: "FG-N", weight: 20, category: "EQ" },
-  { id: 618, vendor: "Slate Digital", name: "Custom Series EQ", weight: 25, category: "EQ" },
-  { id: 619, vendor: "Slate Digital", name: "Custom Series Lift", weight: 20, category: "Mastering" },
-  { id: 620, vendor: "Slate Digital", name: "VTC London", weight: 25, category: "Saturation" },
-  { id: 621, vendor: "Slate Digital", name: "VTC New York", weight: 25, category: "Saturation" },
-  { id: 622, vendor: "Slate Digital", name: "VTC Hollywood", weight: 25, category: "Saturation" },
-  { id: 623, vendor: "Slate Digital", name: "Gate Classic", weight: 15, category: "Dynamics" },
-  { id: 624, vendor: "Slate Digital", name: "Eiosis AirEQ Premium", weight: 30, category: "EQ" },
-  { id: 625, vendor: "Slate Digital", name: "Eiosis E2Deesser", weight: 35, category: "Dynamics" },
-  { id: 626, vendor: "Slate Digital", name: "Storch Filter", weight: 40, category: "EQ" },
-  { id: 627, vendor: "Slate Digital", name: "MO-TT", weight: 45, category: "Dynamics" },
+  { id: 601, vendor: "Slate Digital", name: "Virtual Mix Rack (Empty)", category: "Channel Strip" },
+  { id: 602, vendor: "Slate Digital", name: "VMR (Typical 4-Module)", category: "Channel Strip" },
+  { id: 603, vendor: "Slate Digital", name: "Virtual Tape Machines (VTM)", category: "Saturation" },
+  { id: 604, vendor: "Slate Digital", name: "Virtual Buss Compressors (VBC)", category: "Dynamics" },
+  { id: 605, vendor: "Slate Digital", name: "Infinity EQ", category: "EQ" },
+  { id: 606, vendor: "Slate Digital", name: "FG-X 2 Mastering Console", category: "Mastering" },
+  { id: 607, vendor: "Slate Digital", name: "Fresh Air", category: "EQ" },
+  { id: 608, vendor: "Slate Digital", name: "VerbSuite Classics", category: "Reverb" },
+  { id: 609, vendor: "Slate Digital", name: "Repeater Delay", category: "Delay" },
+  { id: 610, vendor: "Slate Digital", name: "Murda Melodies", category: "Pitch" },
+  { id: 611, vendor: "Slate Digital", name: "Metatune", category: "Pitch" },
+  { id: 612, vendor: "Slate Digital", name: "FG-Bomber", category: "Dynamics" },
+  { id: 613, vendor: "Slate Digital", name: "Custom Opto", category: "Dynamics" },
+  { id: 614, vendor: "Slate Digital", name: "FG-Stress", category: "Dynamics" },
+  { id: 615, vendor: "Slate Digital", name: "FG-A", category: "EQ" },
+  { id: 616, vendor: "Slate Digital", name: "FG-S", category: "EQ" },
+  { id: 617, vendor: "Slate Digital", name: "FG-N", category: "EQ" },
+  { id: 618, vendor: "Slate Digital", name: "Custom Series EQ", category: "EQ" },
+  { id: 619, vendor: "Slate Digital", name: "Custom Series Lift", category: "Mastering" },
+  { id: 620, vendor: "Slate Digital", name: "VTC London", category: "Saturation" },
+  { id: 621, vendor: "Slate Digital", name: "VTC New York", category: "Saturation" },
+  { id: 622, vendor: "Slate Digital", name: "VTC Hollywood", category: "Saturation" },
+  { id: 623, vendor: "Slate Digital", name: "Gate Classic", category: "Dynamics" },
+  { id: 624, vendor: "Slate Digital", name: "Eiosis AirEQ Premium", category: "EQ" },
+  { id: 625, vendor: "Slate Digital", name: "Eiosis E2Deesser", category: "Dynamics" },
+  { id: 626, vendor: "Slate Digital", name: "Storch Filter", category: "EQ" },
+  { id: 627, vendor: "Slate Digital", name: "MO-TT", category: "Dynamics" },
 
   // iZotope
-  { id: 701, vendor: "iZotope", name: "Ozone 11 Maximizer", weight: 150, category: "Mastering" },
-  { id: 702, vendor: "iZotope", name: "Ozone 11 Vintage EQ", weight: 40, category: "EQ" },
-  { id: 703, vendor: "iZotope", name: "Ozone 11 Imager", weight: 45, category: "Mastering" },
-  { id: 704, vendor: "iZotope", name: "RX 11 Voice De-noise", weight: 110, category: "Restoration" },
-  { id: 705, vendor: "iZotope", name: "RX 11 Mouth De-click", weight: 80, category: "Restoration" },
-  { id: 706, vendor: "iZotope", name: "Neutron 4 (Full Strip)", weight: 120, category: "Channel Strip", sections: [
-    { id: 'neutron_eq', label: 'EQ', weight: 24, enabledByDefault: true },
-    { id: 'neutron_comp', label: 'Compressor', weight: 24, enabledByDefault: true },
-    { id: 'neutron_gate', label: 'Gate', weight: 16, enabledByDefault: true },
-    { id: 'neutron_exciter', label: 'Exciter', weight: 18, enabledByDefault: true },
-    { id: 'neutron_transient', label: 'Transient', weight: 18, enabledByDefault: true },
-    { id: 'neutron_limiter', label: 'Limiter', weight: 20, enabledByDefault: true }
+  { id: 701, vendor: "iZotope", name: "Ozone 11 Maximizer", category: "Mastering" },
+  { id: 702, vendor: "iZotope", name: "Ozone 11 Vintage EQ", category: "EQ" },
+  { id: 703, vendor: "iZotope", name: "Ozone 11 Imager", category: "Mastering" },
+  { id: 704, vendor: "iZotope", name: "RX 11 Voice De-noise", category: "Restoration" },
+  { id: 705, vendor: "iZotope", name: "RX 11 Mouth De-click", category: "Restoration" },
+  { id: 706, vendor: "iZotope", name: "Neutron 4 (Full Strip)", category: "Channel Strip", sections: [
+    { id: 'neutron_eq', label: 'EQ', enabledByDefault: true },
+    { id: 'neutron_comp', label: 'Compressor', enabledByDefault: true },
+    { id: 'neutron_gate', label: 'Gate', enabledByDefault: true },
+    { id: 'neutron_exciter', label: 'Exciter', enabledByDefault: true },
+    { id: 'neutron_transient', label: 'Transient', enabledByDefault: true },
+    { id: 'neutron_limiter', label: 'Limiter', enabledByDefault: true }
   ] },
-  { id: 707, vendor: "iZotope", name: "Nectar 4", weight: 100, category: "Channel Strip", sections: [
-    { id: 'nectar_pitch', label: 'Pitch', weight: 16, enabledByDefault: true },
-    { id: 'nectar_eq', label: 'EQ', weight: 18, enabledByDefault: true },
-    { id: 'nectar_comp', label: 'Compression', weight: 20, enabledByDefault: true },
-    { id: 'nectar_deesser', label: 'De-esser', weight: 10, enabledByDefault: true },
-    { id: 'nectar_saturator', label: 'Saturation', weight: 18, enabledByDefault: true },
-    { id: 'nectar_reverbdelay', label: 'Reverb/Delay', weight: 18, enabledByDefault: true }
+  { id: 707, vendor: "iZotope", name: "Nectar 4", category: "Channel Strip", sections: [
+    { id: 'nectar_pitch', label: 'Pitch', enabledByDefault: true },
+    { id: 'nectar_eq', label: 'EQ', enabledByDefault: true },
+    { id: 'nectar_comp', label: 'Compression', enabledByDefault: true },
+    { id: 'nectar_deesser', label: 'De-esser', enabledByDefault: true },
+    { id: 'nectar_saturator', label: 'Saturation', enabledByDefault: true },
+    { id: 'nectar_reverbdelay', label: 'Reverb/Delay', enabledByDefault: true }
   ] },
-  { id: 708, vendor: "iZotope", name: "VocalSynth 2", weight: 90, category: "Pitch" },
+  { id: 708, vendor: "iZotope", name: "VocalSynth 2", category: "Pitch" },
 
   // Others
-  { id: 801, vendor: "Oeksound", name: "Soothe2", weight: 100, category: "Dynamics" },
-  { id: 802, vendor: "Oeksound", name: "Spiff", weight: 95, category: "Dynamics" },
-  { id: 803, vendor: "Soundtheory", name: "Gullfoss", weight: 90, category: "EQ" },
-  { id: 804, vendor: "Valhalla", name: "VintageVerb", weight: 30, category: "Reverb" },
-  { id: 805, vendor: "Valhalla", name: "Supermassive", weight: 35, category: "Reverb" },
-  { id: 806, vendor: "Soundtoys", name: "Decapitator", weight: 40, category: "Saturation" },
-  { id: 807, vendor: "Soundtoys", name: "EchoBoy", weight: 45, category: "Delay" },
-  { id: 808, vendor: "Neural DSP", name: "Archetype Gojira", weight: 220, category: "Amp Sim" },
-  { id: 809, vendor: "Arturia", name: "Pigments", weight: 170, category: "Synth" },
-  { id: 810, vendor: "Xfer", name: "Serum", weight: 130, category: "Synth" },
-  { id: 811, vendor: "Spectrasonics", name: "Omnisphere 2", weight: 160, category: "Synth" }
+  { id: 801, vendor: "Oeksound", name: "Soothe2", category: "Dynamics" },
+  { id: 802, vendor: "Oeksound", name: "Spiff", category: "Dynamics" },
+  { id: 803, vendor: "Soundtheory", name: "Gullfoss", category: "EQ" },
+  { id: 804, vendor: "Valhalla", name: "VintageVerb", category: "Reverb" },
+  { id: 805, vendor: "Valhalla", name: "Supermassive", category: "Reverb" },
+  { id: 806, vendor: "Soundtoys", name: "Decapitator", category: "Saturation" },
+  { id: 807, vendor: "Soundtoys", name: "EchoBoy", category: "Delay" },
+  { id: 808, vendor: "Neural DSP", name: "Archetype Gojira", category: "Amp Sim" },
+  { id: 809, vendor: "Arturia", name: "Pigments", category: "Synth" },
+  { id: 810, vendor: "Xfer", name: "Serum", category: "Synth" },
+  { id: 811, vendor: "Spectrasonics", name: "Omnisphere 2", category: "Synth" }
 ];
 
 const categoryStyles = {
@@ -573,6 +573,134 @@ const categoryStyles = {
   "Synth": { backgroundColor: 'rgba(96, 165, 250, 0.10)', color: '#90e0ef', borderColor: 'rgba(96, 165, 250, 0.22)' },
   "Sampler": { backgroundColor: 'rgba(96, 165, 250, 0.10)', color: '#90e0ef', borderColor: 'rgba(96, 165, 250, 0.22)' },
 };
+
+const categoryBaseWeights = {
+  "EQ": 11,
+  "Dynamics": 16,
+  "Mastering": 30,
+  "Restoration": 42,
+  "Channel Strip": 24,
+  "Delay": 18,
+  "Reverb": 26,
+  "Saturation": 20,
+  "Pitch": 24,
+  "Amp Sim": 40,
+  "Synth": 34,
+  "Sampler": 30,
+};
+
+const vendorWeightMultipliers = {
+  "Logic Pro": 0.85,
+  "FabFilter": 1.0,
+  "UAD": 1.1,
+  "Waves": 0.95,
+  "Slate Digital": 1.0,
+  "iZotope": 1.15,
+  "Oeksound": 1.2,
+  "Soundtheory": 1.15,
+  "Valhalla": 0.9,
+  "Soundtoys": 1.0,
+  "Neural DSP": 1.2,
+  "Arturia": 1.1,
+  "Xfer": 1.05,
+  "Spectrasonics": 1.2,
+};
+
+const nameWeightBoosters = [
+  [/\b(maximizer|maxx?imiz|ultra|max)\b/i, 8],
+  [/\b(multiband|multi|master(ing)? chain|console)\b/i, 8],
+  [/\b(convolution|chamber|studio|space)\b/i, 10],
+  [/\b(real[- ]?time|ai|clarity|de[- ]?noise|de[- ]?click|de[- ]?reverb)\b/i, 14],
+  [/\b(synth|omnisphere|pigments|serum|opal|moog|minimoog|organ|b3)\b/i, 10],
+  [/\b(tape|vintage|tube)\b/i, 4],
+];
+
+const sectionBaseWeights = {
+  preamp: 8,
+  filter: 5,
+  eq: 10,
+  compressor: 11,
+  gate: 5,
+  "gate/expander": 6,
+  output: 4,
+  pitch: 9,
+  compression: 11,
+  "de-esser": 6,
+  saturation: 8,
+  "reverb/delay": 10,
+  exciter: 8,
+  transient: 8,
+  limiter: 10,
+};
+
+function roundWeight(value) {
+  return Math.max(4, Math.round(value));
+}
+
+function deriveFormFactor(machineName) {
+  if (/MacBook Air/i.test(machineName)) return 'MacBook Air';
+  if (/MacBook Pro/i.test(machineName)) return 'MacBook Pro';
+  if (/iMac/i.test(machineName)) return 'iMac';
+  if (/Mac mini/i.test(machineName)) return 'Mac mini';
+  if (/Mac Studio/i.test(machineName)) return 'Mac Studio';
+  if (/Mac Pro/i.test(machineName)) return 'Mac Pro';
+  if (/MacBook/i.test(machineName)) return 'MacBook Pro';
+  return 'Other';
+}
+
+function toCatalogId(formFactor, processor) {
+  return `${formFactor}_${processor}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+function formatProcessorName(processor) {
+  const match = processor.match(/^([A-Z0-9]+(?:\s(?:Pro|Max|Ultra))?)\s+(\d+)-core$/i);
+  if (match) {
+    return `${match[1]} (${match[2]}-core)`;
+  }
+  return processor;
+}
+
+function parseGeekbenchCsv(csvText) {
+  const lines = csvText.trim().split(/\r?\n/);
+  if (lines.length <= 1) return [];
+
+  const rows = lines.slice(1).map((line) => {
+    const [machine, processor, singleStr, multiStr] = line.split(',');
+    return {
+      machine: (machine || '').trim(),
+      processor: (processor || '').trim(),
+      single: Number(singleStr),
+      multi: Number(multiStr),
+    };
+  }).filter((row) => row.machine && /^M\d/i.test(row.processor) && Number.isFinite(row.single) && Number.isFinite(row.multi));
+
+  const aggregates = new Map();
+  rows.forEach((row) => {
+    const formFactor = deriveFormFactor(row.machine);
+    const key = `${formFactor}__${row.processor}`;
+    const current = aggregates.get(key) || { formFactor, processor: row.processor, singleSum: 0, multiSum: 0, count: 0 };
+    current.singleSum += row.single;
+    current.multiSum += row.multi;
+    current.count += 1;
+    aggregates.set(key, current);
+  });
+
+  return Array.from(aggregates.values()).map((entry) => {
+    const genMatch = entry.processor.match(/M(\d+)/i);
+    return {
+      id: toCatalogId(entry.formFactor, entry.processor),
+      name: formatProcessorName(entry.processor),
+      formFactor: entry.formFactor,
+      single: Math.round(entry.singleSum / entry.count),
+      multi: Math.round(entry.multiSum / entry.count),
+      gen: genMatch ? Number(genMatch[1]) : 0,
+      processor: entry.processor,
+    };
+  }).sort((a, b) => a.formFactor.localeCompare(b.formFactor) || b.gen - a.gen || a.name.localeCompare(b.name));
+}
 
 function App() {
   const showHeaderLogo = false;
@@ -624,7 +752,8 @@ function App() {
   };
 
   const [selectedFormFactor, setSelectedFormFactor] = useState('MacBook Pro');
-  const [selectedMacId, setSelectedMacId] = useState('mbp_m4p');
+  const [selectedMacId, setSelectedMacId] = useState('mbp_m1p_8');
+  const [macCatalog, setMacCatalog] = useState(macModels);
   const [sampleRate, setSampleRate] = useState(1.09);
   const [bufferSize, setBufferSize] = useState(1.2);
   const [cpuBudget, setCpuBudget] = useState(80);
@@ -633,13 +762,46 @@ function App() {
   const [chains, setChains] = useState([{ id: 'chain-1', name: 'Track 1', format: 'stereo', instances: 1, plugins: [] }]);
   const [activeChainId, setActiveChainId] = useState('chain-1');
 
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch('assets/apple-silicon-gb6.csv')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to load benchmark CSV');
+        }
+        return response.text();
+      })
+      .then((csvText) => {
+        if (cancelled) return;
+        const parsedCatalog = parseGeekbenchCsv(csvText);
+        if (parsedCatalog.length === 0) return;
+
+        setMacCatalog(parsedCatalog);
+        const preferredDefault = parsedCatalog.find((m) =>
+          m.formFactor === 'MacBook Pro' && /M1 Pro\s+8-core/i.test(m.processor)
+        ) || parsedCatalog.find((m) => m.formFactor === 'MacBook Pro') || parsedCatalog[0];
+
+        setSelectedFormFactor(preferredDefault.formFactor);
+        setSelectedMacId(preferredDefault.id);
+      })
+      .catch(() => {
+        // Keep static fallback catalog when CSV loading fails.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const activeChain = chains.find(c => c.id === activeChainId) || chains[0];
-  const uniqueFormFactors = useMemo(() => [...new Set(macModels.map(m => m.formFactor))], []);
-  const availableMacs = useMemo(() => macModels.filter(m => m.formFactor === selectedFormFactor), [selectedFormFactor]);
+  const uniqueFormFactors = useMemo(() => [...new Set(macCatalog.map(m => m.formFactor))], [macCatalog]);
+  const availableMacs = useMemo(() => macCatalog.filter(m => m.formFactor === selectedFormFactor), [macCatalog, selectedFormFactor]);
+  const availableGenerations = useMemo(() => [...new Set(availableMacs.map(m => m.gen))].sort((a, b) => b - a), [availableMacs]);
   
   const selectedMac = useMemo(() => {
-    return macModels.find(m => m.id === selectedMacId) || availableMacs[0] || macModels[0];
-  }, [selectedMacId, availableMacs]);
+    return macCatalog.find(m => m.id === selectedMacId) || availableMacs[0] || macCatalog[0] || macModels[0];
+  }, [selectedMacId, availableMacs, macCatalog]);
 
   const getHardwareIcon = (formFactor) => {
     switch (formFactor) {
@@ -656,8 +818,35 @@ function App() {
   const handleFormFactorChange = (e) => {
     const newFf = e.target.value;
     setSelectedFormFactor(newFf);
-    const firstInNewFf = macModels.find(m => m.formFactor === newFf);
+    const firstInNewFf = macCatalog.find(m => m.formFactor === newFf);
     if (firstInNewFf) setSelectedMacId(firstInNewFf.id);
+  };
+
+  const getSectionWeight = (section) => {
+    const normalizedLabel = (section.label || '').toLowerCase();
+    if (sectionBaseWeights[normalizedLabel]) {
+      return sectionBaseWeights[normalizedLabel];
+    }
+
+    if (/eq/i.test(normalizedLabel)) return sectionBaseWeights.eq;
+    if (/comp/i.test(normalizedLabel)) return sectionBaseWeights.compressor;
+    if (/gate/i.test(normalizedLabel)) return sectionBaseWeights.gate;
+    if (/preamp/i.test(normalizedLabel)) return sectionBaseWeights.preamp;
+    if (/filter/i.test(normalizedLabel)) return sectionBaseWeights.filter;
+    if (/output/i.test(normalizedLabel)) return sectionBaseWeights.output;
+
+    return 7;
+  };
+
+  const getPluginBaseWeight = (plugin) => {
+    const baseByCategory = categoryBaseWeights[plugin.category] || 18;
+    const vendorMultiplier = vendorWeightMultipliers[plugin.vendor] || 1;
+    const nameBoost = nameWeightBoosters.reduce((sum, [pattern, points]) => (
+      pattern.test(plugin.name) ? sum + points : sum
+    ), 0);
+    const sectionComplexity = plugin.sections ? plugin.sections.length * 3 : 0;
+
+    return roundWeight((baseByCategory + nameBoost + sectionComplexity) * vendorMultiplier);
   };
 
   const filteredPlugins = useMemo(() => {
@@ -679,23 +868,32 @@ function App() {
     const sectionStates = plugin.sections
       ? Object.fromEntries(plugin.sections.map(section => [section.id, section.enabledByDefault !== false]))
       : null;
+    const sectionWeights = plugin.sections
+      ? Object.fromEntries(plugin.sections.map(section => [section.id, getSectionWeight(section)]))
+      : null;
+    const baseWeight = getPluginBaseWeight(plugin);
 
     return {
       ...plugin,
       uniqueId: crypto.randomUUID(),
-      ...(sectionStates ? { moduleStates: sectionStates } : {})
+      baseWeight,
+      ...(sectionStates ? { moduleStates: sectionStates, sectionWeights } : {})
     };
   };
 
   const getPluginEffectiveWeight = (plugin) => {
     if (!plugin.sections || plugin.sections.length === 0) {
-      return plugin.weight;
+      return plugin.baseWeight ?? getPluginBaseWeight(plugin);
     }
 
-    return plugin.sections.reduce((sum, section) => {
+    const enabledSectionWeight = plugin.sections.reduce((sum, section) => {
       const enabled = plugin.moduleStates?.[section.id] ?? (section.enabledByDefault !== false);
-      return enabled ? sum + section.weight : sum;
+      const sectionWeight = plugin.sectionWeights?.[section.id] ?? getSectionWeight(section);
+      return enabled ? sum + sectionWeight : sum;
     }, 0);
+
+    const chainStripOverhead = Math.max(4, Math.round((plugin.baseWeight ?? getPluginBaseWeight(plugin)) * 0.25));
+    return enabledSectionWeight + chainStripOverhead;
   };
 
   const createNewChain = () => {
@@ -768,7 +966,7 @@ function App() {
   const willGlitchMulti = selectedMacPerformance.overMulti;
   const remainingBudget = Math.max(0, ((selectedMac.multi * cpuBudget) / 100) - sessionTotalCost);
   const maxAdditionalInstances = activeChainSingleCost > 0 ? Math.floor(remainingBudget / activeChainSingleCost) : 0;
-  const sortedMacModels = [...macModels].sort((a, b) => a.multi - b.multi);
+  const sortedMacModels = [...macCatalog].sort((a, b) => a.multi - b.multi);
 
   const normalizedLoad = selectedMac.multi > 0 ? Math.min(sessionTotalCost / selectedMac.multi, 1) : 0;
   const chainDensity = Math.min(activeChain.plugins.length / 12, 1);
@@ -824,10 +1022,32 @@ function App() {
               <label className="text-xs font-medium text-[#aaaaaa] uppercase tracking-wider block">Processor (CPU)</label>
               <div className="relative flex items-center">
                 <select value={selectedMacId} onChange={(e) => setSelectedMacId(e.target.value)} className="w-full appearance-none bg-[#121212] border border-[#333333] text-[#f0f0f0] rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#00bfff] transition-all">
-                  {[5, 4, 3, 2, 1].map(gen => {
-                    const genMacs = availableMacs.filter(m => m.gen === gen);
+                  {availableGenerations.map(gen => {
+                    const genMacs = availableMacs
+                      .filter(m => m.gen === gen)
+                      .slice()
+                      .sort((a, b) => {
+                        const getTierRank = (name) => {
+                          if (/\bUltra\b/i.test(name)) return 0;
+                          if (/\bMax\b/i.test(name)) return 1;
+                          if (/\bPro\b/i.test(name)) return 2;
+                          return 3;
+                        };
+                        const getCoreCount = (name) => {
+                          const match = name.match(/\((\d+)-core\)/i);
+                          return match ? Number(match[1]) : 0;
+                        };
+
+                        const tierDelta = getTierRank(a.name) - getTierRank(b.name);
+                        if (tierDelta !== 0) return tierDelta;
+
+                        const coreDelta = getCoreCount(b.name) - getCoreCount(a.name);
+                        if (coreDelta !== 0) return coreDelta;
+
+                        return a.name.localeCompare(b.name);
+                      });
                     if (genMacs.length === 0) return null;
-                    return <optgroup key={gen} label={`M${gen} Series`}>{genMacs.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>;
+                    return <optgroup key={gen} label={gen > 0 ? `M${gen} Series` : 'Other'}>{genMacs.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>;
                   })}
                 </select>
                   <Cpu className="w-4 h-4 absolute left-3 pointer-events-none" aria-label="CPU" style={{ opacity: 0.667 }} />
@@ -865,7 +1085,7 @@ function App() {
           <div className="mt-6 pt-4 border-t border-[#333333] flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs text-[#aaaaaa]">
               <Info className="w-4 h-4 shrink-0" aria-label="Info" style={{ opacity: 0.85 }} />
-              <p>Math calibrated using <strong>Geekbench 6</strong> averages from <strong>EveryMac</strong> for <strong className="text-[#f0f0f0]">{selectedMac.name} {selectedMac.formFactor}</strong>.</p>
+              <p>Math calibrated using local <strong>Geekbench 6</strong> CSV data for <strong className="text-[#f0f0f0]">{selectedMac.name} {selectedMac.formFactor}</strong>.</p>
             </div>
           </div>
         </section>
@@ -918,13 +1138,13 @@ function App() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={clearActiveChain} disabled={activeChain.plugins.length === 0} className="text-xs font-bold text-neutral-300 bg-neutral-800/70 px-3 py-1.5 rounded border border-white/10 transition-all hover:bg-neutral-700 disabled:opacity-40">CLEAR CHAIN</button>
                   <div className="flex items-center bg-black/30 border border-white/10 rounded-md px-2 py-1.5"><span className="text-[10px] font-bold text-neutral-500 uppercase mr-2">Chains:</span>
                     <select value={activeChain.instances} onChange={(e) => updateActiveChainInstances(parseInt(e.target.value))} className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer">
                       {Array.from({ length: 20 }, (_, i) => i + 1).map(n => <option key={n} value={n} className="bg-neutral-900">{n}</option>)}
                     </select>
                   </div>
-                  <button onClick={() => removeChain(activeChain.id)} disabled={chains.length === 1} className="text-red-400 bg-red-500/10 p-2 rounded hover:bg-red-500/30 transition-all border border-red-500/20 disabled:opacity-30"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={clearActiveChain} disabled={activeChain.plugins.length === 0} className="text-[10px] font-bold text-neutral-300 bg-neutral-800/70 px-3 py-1.5 rounded border border-white/10 transition-all hover:bg-neutral-700 disabled:opacity-40">CLEAR CHAIN</button>
+                  <button onClick={() => removeChain(activeChain.id)} disabled={chains.length === 1} className="text-[10px] font-bold text-red-300 bg-red-500/10 px-3 py-1.5 rounded border border-red-500/20 transition-all hover:bg-red-500/30 disabled:opacity-30">DELETE TRACK</button>
                 </div>
               </div>
             </div>
@@ -946,7 +1166,7 @@ function App() {
             <div className="flex items-center gap-2 text-neutral-400 mb-6 border-b border-neutral-800 pb-4 shrink-0"><Cpu className="w-4 h-4" aria-label="CPU" style={{ opacity: 0.85 }} /><h2 className="text-sm font-bold uppercase tracking-wider text-neutral-300">Performance</h2></div>
             <div className="flex-1 space-y-8 overflow-y-auto pr-2">
               <div>
-                <div className="flex justify-between items-end mb-2"><div><h3 className="text-sm font-medium text-neutral-300">Session Total</h3><p className="text-[10px] text-neutral-500">Multi-core utilization across {chains.length} tracks.</p></div><span className={`text-xl font-mono font-bold ${willGlitchMulti ? 'text-red-400' : 'text-purple-400'}`}>{multiCorePercent.toFixed(1)}%</span></div>
+                <div className="flex justify-between items-end mb-2"><div><h3 className="text-sm font-medium text-neutral-300">Session Total</h3><p className="text-[10px] text-neutral-500">Multi-core utilization across {chains.length} {chains.length === 1 ? 'track' : 'tracks'}.</p></div><span className={`text-xl font-mono font-bold ${willGlitchMulti ? 'text-red-400' : 'text-purple-400'}`}>{multiCorePercent.toFixed(1)}%</span></div>
                 <div className="h-3 w-full bg-neutral-950 border border-neutral-800 rounded-full overflow-hidden relative"><div className="absolute top-0 bottom-0 w-0.5 bg-neutral-600 z-20" style={{ left: `${cpuBudget}%` }} /><div className={`h-full transition-all duration-500 ${willGlitchMulti ? 'bg-red-500' : multiCorePercent > cpuBudget * 0.8 ? 'bg-amber-500' : 'bg-purple-500'}`} style={{ width: `${Math.min(multiCorePercent, 100)}%` }} /></div>
               </div>
               <div>

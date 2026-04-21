@@ -1,0 +1,65 @@
+Machine,Processor,GB6 Single-Core,GB6 Multi-Core
+MacBook Pro 13″ (2020),M1 8-core,2322,8181
+iMac 24″ (2021),M1 8-core,2349,8374
+MacBook Air 13″ (2020),M1 8-core,2351,8349
+MacBook Pro 14″ (2021),M1 Pro 8-core,2360,10312
+Mac mini (2020),M1 8-core,2367,8441
+MacBook Pro 14″ (2021),M1 Max 10-core,2378,12338
+MacBook Pro 14″ (2021),M1 Pro 10-core,2385,12338
+MacBook Pro 16″ (2021),M1 Max 10-core,2393,12247
+Mac Studio (2022),M1 Ultra 20-core,2402,18463
+MacBook Pro 16″ (2021),M1 Pro 10-core,2403,12289
+Mac Studio (2022),M1 Max 10-core,2419,12655
+MacBook Air 13″ (2022),M2 8-core,2560,9580
+MacBook Air 15″ (2023),M2 8-core,2598,9787
+MacBook Pro 13″ (2022),M2 8-core,2606,9658
+Mac mini (2023),M2 8-core,2643,9792
+MacBook Pro 14″ (2023),M2 Pro 10-core,2643,12344
+MacBook Pro 16″ (2023),M2 Pro 12-core,2646,14383
+Mac mini (2023),M2 Pro 10-core,2654,12437
+MacBook Pro 14″ (2023),M2 Pro 12-core,2656,14446
+Mac mini (2023),M2 Pro 12-core,2661,14544
+Mac Studio (2023),M2 Ultra 24-core,2675,21196
+Mac Studio (2023),M2 Max 12-core,2719,14777
+MacBook Pro 14″ (2023),M2 Max 12-core,2741,14729
+MacBook Pro 16″ (2023),M2 Max 12-core,2746,14738
+Mac Pro Rack (2023),M2 Ultra 24-core,2766,21209
+Mac Pro Tower (2023),M2 Ultra 24-core,2766,21209
+iMac 24″ (2023),M3 8-core,2997,11560
+iMac 24″ (2023),M3 8-core,3055,11676
+MacBook Air 13″ (2024),M3 8-core,3066,11763
+MacBook Air 15″ (2024),M3 8-core,3070,11770
+MacBook Pro 14″ (2023),M3 Pro 11-core,3088,13968
+MacBook Pro 14″ (2023),M3 8-core,3092,11624
+MacBook Pro 14″ (2023),M3 Pro 12-core,3099,15244
+MacBook Pro 14″ (2023),M3 Max 16-core,3101,21104
+MacBook Pro 14″ (2023),M3 Max 14-core,3104,19145
+MacBook Pro 16″ (2023),M3 Pro 12-core,3110,15247
+MacBook Pro 16″ (2023),M3 Max 16-core,3119,21128
+MacBook Pro 16″ (2023),M3 Max 14-core,3127,19153
+Mac Studio (2025),M3 Ultra 32-core,3201,27661
+Mac Studio (2025),M3 Ultra 28-core,3214,26530
+MacBook Neo 13″ (2026),A18 Pro 6-core,3487,8693
+iMac 24″ (2024),M4 8-core,3693,13638
+iMac 24″ (2024),M4 10-core,3714,14570
+MacBook Air 15″ (2025),M4 10-core,3718,14655
+MacBook Air 13″ (2025),M4 10-core,3721,14684
+MacBook Pro 14″ (2024),M4 10-core,3736,14746
+Mac mini (2024),M4 10-core,3791,14605
+Mac mini (2024),M4 Pro 14-core,3806,22312
+Mac mini (2024),M4 Pro 12-core,3811,20160
+MacBook Pro 14″ (2024),M4 Pro 14-core,3840,22309
+MacBook Pro 14″ (2024),M4 Pro 12-core,3844,20182
+MacBook Pro 14″ (2024),M4 Max 14-core,3852,23062
+MacBook Pro 16″ (2024),M4 Pro 14-core,3870,22448
+MacBook Pro 14″ (2024),M4 Max 16-core,3889,25621
+MacBook Pro 16″ (2024),M4 Max 16-core,3927,25781
+MacBook Pro 16″ (2024),M4 Max 14-core,3941,23146
+Mac Studio (2025),M4 Max 14-core,4011,23428
+Mac Studio (2025),M4 Max 16-core,4016,25979
+MacBook Air 15″ (2026),M5 10-core,4152,16863
+MacBook Air 13″ (2026),M5 10-core,4168,16934
+MacBook Pro 14″ (2026),M5 Pro 15-core,4178,25411
+MacBook Pro 14″ (2026),M5 Pro 18-core,4213,27915
+MacBook Pro 14″ (2026),M5 Max 18-core,4235,28746
+MacBook Pro 14″ (2025),M5 10-core,4252,17606
